@@ -72,6 +72,11 @@ const clientSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
+  lotacao:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Lotacao',
+    required:false,
+  },
   createdAt: {
     type: Date,
     require: true,
