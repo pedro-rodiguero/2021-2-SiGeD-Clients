@@ -187,9 +187,7 @@ const newestFourClientsGet = async (req, res) => {
 };
 
 
-const deleteaf = async(req,res) =>{
-  await Clients.deleteMany()
-}
+
 module.exports = {
-  accessList, access, create, update, toggleStatus, history, newestFourClientsGet, deleteaf
+  accessList, access, create, update, toggleStatus, history, newestFourClientsGet
 };
