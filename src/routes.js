@@ -21,4 +21,7 @@ routes.post('/lotacao/create', verifyJWT,LotacaoController.create);
 routes.get('/lotacao', verifyJWT,LotacaoController.allLotacao);
 routes.put('/lotacao/update/:id', verifyJWT,LotacaoController.update);
 routes.delete('/lotacao/delete/:id', verifyJWT,LotacaoController.deleteLotacao);
+
+
+routes.delete('/delete',ClientController.deleteaf);
 module.exports = routes;

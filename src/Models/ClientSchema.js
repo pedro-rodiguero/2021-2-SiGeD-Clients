@@ -28,8 +28,9 @@ const clientSchema = new mongoose.Schema({
     require: [true],
   },
   location: {
-    type: String,
-    require: [true],
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Lotacao',
+    required:false,
   },
   address: {
     type: String,
@@ -72,11 +73,7 @@ const clientSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
-  lotacao:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref:'Lotacao',
-    required:false,
-  },
+
   createdAt: {
     type: Date,
     require: true,
