@@ -20,7 +20,7 @@ const access = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const client = await Client.findOne({ _id: id });
+    const client = await Client.findOne({ _id: id }).populate('lotacao');
     return res.json(client);
   } catch (error) {
     return res.status(400).json({ message: 'Client not found' });
@@ -30,9 +30,8 @@ const access = async (req, res) => {
 const create = async (req, res) => {
   const {
     name, cpf, email, phone, secondaryPhone, address,
-    office, active, location, userID, features, image,
+    office, active, location, userID, features, image,idLotacao
   } = req.body;
-
   const errorMessage = validation.validate(name, cpf, email, phone, secondaryPhone, office);
 
   if (errorMessage.length) {
@@ -64,10 +63,11 @@ const create = async (req, res) => {
         label: 'created',
       },
       image,
+      lotacao:idLotacao,
       createdAt: date,
       updatedAt: date,
     });
-    return res.json(client);
+    return res.json(client).populate('lotacao')
   } catch (error) {
     return res.status(400).json({ message: error.keyValue });
   }
@@ -77,7 +77,7 @@ const update = async (req, res) => {
   const { id } = req.params;
   const {
     name, cpf, email, phone, secondaryPhone, office,
-    address, location, userID, features, image,
+    address, location, userID, features, image,idLotacao
   } = req.body;
 
   const errorMessage = validation.validate(name, cpf, email, phone, secondaryPhone, office);
@@ -96,7 +96,7 @@ const update = async (req, res) => {
     }
 
     const clientHistory = await verifyChanges(req.body, id);
-    const client = await Client.findOneAndUpdate({ _id: id }, {
+    const clientBeforeUpdate = await Client.findOneAndUpdate({ _id: id }, {
       name,
       cpf,
       email,
@@ -108,10 +108,13 @@ const update = async (req, res) => {
       address,
       history: clientHistory,
       image,
+      lotacao:idLotacao,
       updatedAt: moment.utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss')).toDate(),
     },
     { new: true });
-    return res.json(client);
+    
+    const clientAfterUpdate = await Client.findById(id).populate('lotacao');
+    return res.json(clientAfterUpdate);
   } catch (error) {
     return res.status(400).json({ duplicated: error.keyValue });
   }
