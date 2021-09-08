@@ -5,6 +5,13 @@ const jwt = require('jsonwebtoken');
 describe('Sample Test', () => {
   let activeID, notActiveID;
 
+
+  const lotacao = {
+    name:"1° DP",
+    description:"1° DP de go",
+    lotacaoID:"6089c3538dfebe44555bc17e"
+  };
+
   const client = {
     name: 'Davi Rogerio',
     email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
@@ -12,7 +19,7 @@ describe('Sample Test', () => {
     phone: '988884444',
     secondaryPhone: '988884445',
     office: 'Policial',
-    location: 'DPSS',
+    location: '6089c3538dfebe44555bc17e',
     features: ['608dc9a61286380b31a51233'],
     image: '1244365aahsbch',
     address: 'Brasília',
@@ -25,7 +32,7 @@ describe('Sample Test', () => {
     phone: '977854444',
     secondaryPhone: '977854445',
     office: 'Policial',
-    location: 'DPSS',
+    location: '6089c3538dfebe44555bc17e',
     features: ['608dc9a61286380b31a51233'],
     image: '1244365aahsbch',
     address: 'Ceilândia',
@@ -39,7 +46,7 @@ describe('Sample Test', () => {
     phone: '988884444',
     secondaryPhone: '998888444',
     office: 'Policial',
-    location: 'DPSS',
+    location: '6089c3538dfebe44555bc17e',
     features: ['608dc9a61286380b31a51233'],
     address: 'brasilia',
     userID: '6089c3538dfebe00555bc17e'
@@ -66,7 +73,7 @@ describe('Sample Test', () => {
     phone: '988884401',
     secondaryPhone: '988884410',
     office: 'Policial',
-    location: 'DPSS',
+    location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
     userID: '6089c3538dfebe00555bc17e'
   };
@@ -77,7 +84,7 @@ describe('Sample Test', () => {
     phone: '988884402',
     secondaryPhone: '988884420',
     office: 'Policial',
-    location: 'DPSS',
+    location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
     userID: '6089c3538dfebe00555bc17e'
   };
@@ -88,7 +95,7 @@ describe('Sample Test', () => {
     phone: '988884403',
     secondaryPhone: '988884430',
     office: 'Policial',
-    location: 'DPSS',
+    location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
     userID: '6089c3538dfebe00555bc17e'
   };
@@ -99,7 +106,7 @@ describe('Sample Test', () => {
     phone: '988884404',
     secondaryPhone: '988884440',
     office: 'Policial',
-    location: 'DPSS',
+    location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
     userID: '6089c3538dfebe00555bc17e'
   };
@@ -110,12 +117,13 @@ describe('Sample Test', () => {
     phone: '988884405',
     secondaryPhone: '988884450',
     office: 'Policial',
-    location: 'DPSS',
+    location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
     userID: '6089c3538dfebe00555bc17e'
   };
 
   beforeAll(async () => {
+    await request(app).post('/lotacao/create/').set('x-access-token', token).send(lotacao)
     await request(app).post('/clients/create/').set('x-access-token', token).send(client1);
     await request(app).post('/clients/create/').set('x-access-token', token).send(client2);
     await request(app).post('/clients/create/').set('x-access-token', token).send(client3);
@@ -255,7 +263,7 @@ describe('Sample Test', () => {
       phone: '9966885522',
       secondaryPhone: '123688559',
       office: 'Policial',
-      location: 'DPSS',
+      location: '6089c3538dfebe44555bc17e',
       address: 'Brasilia',
       userID: '6089c3538dfebe00555bc17e'
     }
@@ -305,7 +313,7 @@ describe('Sample Test', () => {
       phone: '99887564',
       secondaryPhone: '996687342',
       office: 'Policial',
-      location: '1a DP',
+      location: '6089c3538dfebe44555bc17e',
       address: 'Aguas Claras',
       userID: '6089c3538dfebe00555bc17e'
     };
