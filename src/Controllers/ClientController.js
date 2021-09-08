@@ -7,12 +7,12 @@ const { getUser } = require("../Services/Axios/userService");
 
 const accessList = async (req, res) => {
   const { active } = req.query;
-  if (active === 'false') {
-    const clients = await Client.find({ active }).populate('location');
+  if (active === "false") {
+    const clients = await Client.find({ active }).populate("location");
     return res.json(clients);
   }
 
-  const clients = await Client.find({ active: true }).populate('location');
+  const clients = await Client.find({ active: true }).populate("location");
 
   return res.json(clients);
 };
@@ -21,7 +21,7 @@ const access = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const client = await Client.findOne({ _id: id }).populate('location');
+    const client = await Client.findOne({ _id: id }).populate("location");
     return res.json(client);
   } catch (error) {
     return res.status(400).json({ message: "Client not found" });
@@ -30,11 +30,28 @@ const access = async (req, res) => {
 
 const create = async (req, res) => {
   const {
-    name, cpf, email, phone, secondaryPhone, address,
-    office, active, location, userID, features, image,
+    name,
+    cpf,
+    email,
+    phone,
+    secondaryPhone,
+    address,
+    office,
+    active,
+    location,
+    userID,
+    features,
+    image,
   } = req.body;
 
-  const errorMessage = validation.validate(name, cpf, email, phone, secondaryPhone, office);
+  const errorMessage = validation.validate(
+    name,
+    cpf,
+    email,
+    phone,
+    secondaryPhone,
+    office
+  );
 
   if (errorMessage.length) {
     return res.status(400).json({ message: errorMessage });
@@ -46,8 +63,10 @@ const create = async (req, res) => {
     if (user.error) {
       return res.status(400).json({ message: user.error });
     }
-   
-    const date = moment.utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss')).toDate();
+
+    const date = moment
+      .utc(moment.tz("America/Sao_Paulo").format("YYYY-MM-DDTHH:mm:ss"))
+      .toDate();
     const client = await Client.create({
       name,
       cpf,
@@ -78,8 +97,17 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   const { id } = req.params;
   const {
-    name, cpf, email, phone, secondaryPhone, office,
-    address, location, userID, features, image,
+    name,
+    cpf,
+    email,
+    phone,
+    secondaryPhone,
+    office,
+    address,
+    location,
+    userID,
+    features,
+    image,
   } = req.body;
 
   const errorMessage = validation.validate(
@@ -105,21 +133,26 @@ const update = async (req, res) => {
     }
 
     const clientHistory = await verifyChanges(req.body, id);
-    const client = await Client.findOneAndUpdate({ _id: id }, {
-      name,
-      cpf,
-      email,
-      phone,
-      secondaryPhone,
-      office,
-      location,
-      features,
-      address,
-      history: clientHistory,
-      image,
-      updatedAt: moment.utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss')).toDate(),
-    },
-    { new: true });
+    const client = await Client.findOneAndUpdate(
+      { _id: id },
+      {
+        name,
+        cpf,
+        email,
+        phone,
+        secondaryPhone,
+        office,
+        location,
+        features,
+        address,
+        history: clientHistory,
+        image,
+        updatedAt: moment
+          .utc(moment.tz("America/Sao_Paulo").format("YYYY-MM-DDTHH:mm:ss"))
+          .toDate(),
+      },
+      { new: true }
+    );
     return res.json(client);
   } catch (error) {
     return res.status(400).json({ duplicated: error.keyValue });
