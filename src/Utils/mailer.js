@@ -19,7 +19,9 @@ const sendEmail = (mailOption) => {
 };
 
 const scheduleEmail = (mailOption, dateString) => {
-  if(!dateString) sendEmail(mailOption);
+  if(!dateString){ 
+    sendEmail(mailOption);
+  }
   else{
     var date = new Date(dateString);
     date.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });

@@ -256,7 +256,7 @@ const sendEmailToClient = async (req, res) => {
       text: text,
     }, dateString);
 
-    return res.json({ message: "Email sent." });
+    return res.json({ message: "Email scheduled." });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
