@@ -1,7 +1,7 @@
 const moment = require("moment-timezone");
 const Client = require("../Models/ClientSchema");
 const validation = require("../Utils/validate");
-const mailer = require("../Utils/mailer");
+const { scheduleEmail } = require("../Utils/mailer");
 const verifyChanges = require("../Utils/verifyChanges");
 const { getUser } = require("../Services/Axios/userService");
 
@@ -235,9 +235,12 @@ const newestFourClientsGet = async (req, res) => {
 
 const sendEmailToClient = async (req, res) => {
   const { id } = req.params;
-  const { transporter } = mailer;
-  const { subject, text } = req.body;
-  console.log(req, res);
+  const { dateString, subject, text } = req.body;
+  if (!id) {
+    return res.status(400).json({
+      error: "Invalid clientId",
+    });
+  }
   try {
     const client = await Client.findOne({ _id: id });
     if (!client) {
@@ -246,18 +249,19 @@ const sendEmailToClient = async (req, res) => {
       });
     }
 
-    transporter.sendMail({
+    scheduleEmail({
       from: process.env.email,
       to: client.email,
       subject: subject,
       text: text,
-    });
+    }, dateString);
 
     return res.json({ message: "Email sent." });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
+
 module.exports = {
   accessList,
   access,
