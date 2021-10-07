@@ -95,8 +95,17 @@ const update = async (req, res) => {
     if (user.error) {
       return res.status(400).json({ message: user.error });
     }
-
-    const clientHistory = await verifyChanges(req.body, id);
+    const fieldsToBeVerified = {
+      name: req.body.name,
+      cpf: req.body.cpf,
+      email: req.body.email,
+      phone: req.body.phone,
+      secondaryPhone: req.body.secondaryPhone,
+      office: req.body.office,
+      address: req.body.address,
+      location: req.body.location,
+    }
+    const clientHistory = await verifyChanges(fieldsToBeVerified, id);
     const client = await Client.findOneAndUpdate({ _id: id }, {
       name,
       cpf,
