@@ -105,7 +105,7 @@ const update = async (req, res) => {
       address: req.body.address,
       location: req.body.location,
     }
-    const clientHistory = await verifyChanges(fieldsToBeVerified, id);
+    const clientHistory = await verifyChanges(fieldsToBeVerified, id, req.body.userID);
     const client = await Client.findOneAndUpdate({ _id: id }, {
       name,
       cpf,
