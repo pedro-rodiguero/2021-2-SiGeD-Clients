@@ -133,8 +133,11 @@ const update = async (req, res) => {
     }
 
     const clientHistory = await verifyChanges(req.body, id);
-    const client = await Client.findOneAndUpdate(
-      { _id: id },
+    const client2 = await Client.findById(id);
+    if(client2.office != req.body.office){
+      await client2.update({office:req.body.office});
+    }
+    await client2.update(
       {
         name,
         cpf,
@@ -153,7 +156,7 @@ const update = async (req, res) => {
       },
       { new: true }
     );
-    return res.json(client);
+    return res.json(client2);
   } catch (error) {
     return res.status(400).json({ duplicated: error.keyValue });
   }
