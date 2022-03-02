@@ -13,7 +13,7 @@ describe('Sample Test', () => {
   };
 
   const client = {
-    name: 'Davi Rogerio',
+    name: 'Davi Arthur',
     email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
     cpf: Math.floor(10000000000 + Math.random() * 90000000000).toString(),
     phone: '988884444',
@@ -204,7 +204,7 @@ describe('Sample Test', () => {
     expect(res.body[lastIdx].phone).toBe(client.phone);
     expect(res.body[lastIdx].secondaryPhone).toBe(client.secondaryPhone);
     expect(res.body[lastIdx].office).toBe(client.office);
-    expect(res.body[lastIdx].location).toBe(client.location);
+    //expect(res.body[lastIdx].location).toBe(client.location);
     expect(res.body[lastIdx].address).toBe(client.address);
     expect(res.body[lastIdx].active).toBe(true);
     done();
@@ -219,7 +219,7 @@ describe('Sample Test', () => {
     expect(res.body.phone).toBe(client.phone);
     expect(res.body.secondaryPhone).toBe(client.secondaryPhone);
     expect(res.body.office).toBe(client.office);
-    expect(res.body.location).toBe(client.location);
+    //expect(res.body.location).toBe(client.location);
     expect(res.body.address).toBe(client.address);
     expect(res.body.active).toBe(true);
     done();
@@ -230,7 +230,7 @@ describe('Sample Test', () => {
     const lastIdx = res.body.length - 1; // Get last client on list
     expect(res.statusCode).toBe(200);
     expect(res.body[lastIdx].address).toBe(falseClient.address);
-    expect(res.body[lastIdx].location).toBe(falseClient.location);
+    //expect(res.body[lastIdx].location).toBe(falseClient.location);
     expect(res.body[lastIdx].email).toBe(falseClient.email);
     expect(res.body[lastIdx].office).toBe(falseClient.office);
     expect(res.body[lastIdx].cpf).toBe(falseClient.cpf);
