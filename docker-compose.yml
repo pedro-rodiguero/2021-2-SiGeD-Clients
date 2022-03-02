@@ -5,9 +5,9 @@ services:
     container_name: backend_clients
     build: .
     ports:
-      - 3008:3008
+      - 3002:3002
     environment: 
-      PORT: 3008
+      PORT: 3002
     env_file: .env
     volumes:
       - ./:/code
