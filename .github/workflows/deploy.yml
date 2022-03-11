@@ -21,7 +21,7 @@ jobs:
           git checkout .env
           git checkout master
           git pull origin master -f
-          cp prod.env .env
+          cp deploy.env .env
           docker network create siged_backend
           docker-compose up --build -d
 
