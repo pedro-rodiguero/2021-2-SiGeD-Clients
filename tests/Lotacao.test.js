@@ -1,4 +1,5 @@
 const request = require('supertest');
+const app = require('../src/index');
 const jwt = require('jsonwebtoken');
 
 
