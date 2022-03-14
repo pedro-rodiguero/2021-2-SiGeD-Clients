@@ -30,27 +30,12 @@ const access = async (req, res) => {
 
 const create = async (req, res) => {
   const {
-    name,
-    cpf,
-    email,
-    phone,
-    secondaryPhone,
-    address,
-    office,
-    active,
-    location,
-    userID,
-    features,
-    image,
+    name, cpf, email, phone, secondaryPhone, address, office,
+    active, location, userID, features, image,
   } = req.body;
 
   const errorMessage = validation.validate(
-    name,
-    cpf,
-    email,
-    phone,
-    secondaryPhone,
-    office,
+    name, cpf, email, phone, secondaryPhone, office,
   );
 
   if (errorMessage.length) {
@@ -125,9 +110,7 @@ const update = async (req, res) => {
 
   try {
     const token = req.headers['x-access-token'];
-
     const user = await getUser(userID, token);
-
     if (user.error) {
       return res.status(400).json({ message: user.error });
     }
