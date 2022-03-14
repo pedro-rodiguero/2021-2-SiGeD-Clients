@@ -1,18 +1,18 @@
-const moment = require("moment-timezone");
-const Client = require("../Models/ClientSchema");
-const validation = require("../Utils/validate");
-const { scheduleEmail } = require("../Utils/mailer");
-const verifyChanges = require("../Utils/verifyChanges");
-const { getUser } = require("../Services/Axios/userService");
+const moment = require('moment-timezone');
+const Client = require('../Models/ClientSchema');
+const validation = require('../Utils/validate');
+const { scheduleEmail } = require('../Utils/mailer');
+const verifyChanges = require('../Utils/verifyChanges');
+const { getUser } = require('../Services/Axios/userService');
 
 const accessList = async (req, res) => {
   const { active } = req.query;
-  if (active === "false") {
-    const clients = await Client.find({ active }).populate("location");
+  if (active === 'false') {
+    const clients = await Client.find({ active }).populate('location');
     return res.json(clients);
   }
 
-  const clients = await Client.find({ active: true }).populate("location");
+  const clients = await Client.find({ active: true }).populate('location');
 
   return res.json(clients);
 };
@@ -21,10 +21,10 @@ const access = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const client = await Client.findOne({ _id: id }).populate("location");
+    const client = await Client.findOne({ _id: id }).populate('location');
     return res.json(client);
   } catch (error) {
-    return res.status(400).json({ message: "Client not found" });
+    return res.status(400).json({ message: 'Client not found' });
   }
 };
 
@@ -50,7 +50,7 @@ const create = async (req, res) => {
     email,
     phone,
     secondaryPhone,
-    office
+    office,
   );
 
   if (errorMessage.length) {
@@ -58,14 +58,14 @@ const create = async (req, res) => {
   }
 
   try {
-    const token = req.headers["x-access-token"];
+    const token = req.headers['x-access-token'];
     const user = await getUser(userID, token);
     if (user.error) {
       return res.status(400).json({ message: user.error });
     }
 
     const date = moment
-      .utc(moment.tz("America/Sao_Paulo").format("YYYY-MM-DDTHH:mm:ss"))
+      .utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss'))
       .toDate();
     const client = await Client.create({
       name,
@@ -81,13 +81,13 @@ const create = async (req, res) => {
       history: {
         userID,
         date,
-        label: "created",
+        label: 'created',
       },
       image,
       createdAt: date,
       updatedAt: date,
     });
-    //const fullCliente = await Client.findOne({email:client.email}).populate('location');
+    // const fullCliente = await Client.findOne({email:client.email}).populate('location');
     return res.json(client);
   } catch (error) {
     return res.status(400).json({ message: error.keyValue });
@@ -116,7 +116,7 @@ const update = async (req, res) => {
     email,
     phone,
     secondaryPhone,
-    office
+    office,
   );
 
   if (errorMessage.length) {
@@ -124,7 +124,7 @@ const update = async (req, res) => {
   }
 
   try {
-    const token = req.headers["x-access-token"];
+    const token = req.headers['x-access-token'];
 
     const user = await getUser(userID, token);
 
@@ -134,8 +134,8 @@ const update = async (req, res) => {
 
     const clientHistory = await verifyChanges(req.body, id);
     const client2 = await Client.findById(id);
-    if(client2.office != req.body.office){
-      await client2.update({office:req.body.office});
+    if (client2.office !== req.body.office) {
+      await client2.update({ office: req.body.office });
     }
     await client2.update(
       {
@@ -151,10 +151,10 @@ const update = async (req, res) => {
         history: clientHistory,
         image,
         updatedAt: moment
-          .utc(moment.tz("America/Sao_Paulo").format("YYYY-MM-DDTHH:mm:ss"))
+          .utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss'))
           .toDate(),
       },
-      { new: true }
+      { new: true },
     );
     return res.json(client2);
   } catch (error) {
@@ -171,7 +171,7 @@ const toggleStatus = async (req, res) => {
     let { active } = clientFound;
 
     if (!validation.validateActive(active)) {
-      return res.status(400).json({ message: "invalid active value" });
+      return res.status(400).json({ message: 'invalid active value' });
     }
 
     active = !clientFound.active;
@@ -185,11 +185,11 @@ const toggleStatus = async (req, res) => {
           return res.status(400).json(err);
         }
         return res.json(client);
-      }
+      },
     );
     return updateReturn;
   } catch (err) {
-    return res.status(400).json({ message: "Client not found" });
+    return res.status(400).json({ message: 'Client not found' });
   }
 };
 
@@ -197,8 +197,8 @@ const history = async (req, res) => {
   const { id } = req.params;
 
   try {
-    let error = "";
-    const token = req.headers["x-access-token"];
+    let error = '';
+    const token = req.headers['x-access-token'];
     const clientFound = await Client.findOne({ _id: id });
     const clientHistory = await Promise.all(
       clientFound.history.map(async (elem) => {
@@ -219,14 +219,14 @@ const history = async (req, res) => {
             role: user.role,
           },
         };
-      })
+      }),
     );
     if (error) {
       return res.status(400).json({ message: error });
     }
     return res.json(clientHistory);
   } catch {
-    return res.status(400).json({ message: "Client not found" });
+    return res.status(400).json({ message: 'Client not found' });
   }
 };
 
@@ -241,25 +241,25 @@ const sendEmailToClient = async (req, res) => {
   const { dateString, subject, text } = req.body;
   if (!id) {
     return res.status(400).json({
-      error: "Invalid clientId",
+      error: 'Invalid clientId',
     });
   }
   try {
     const client = await Client.findOne({ _id: id });
     if (!client) {
       return res.status(404).json({
-        error: "It was not possible to find an user with this email.",
+        error: 'It was not possible to find an user with this email.',
       });
     }
 
     scheduleEmail({
       from: process.env.email,
       to: client.email,
-      subject: subject,
-      text: text,
+      subject,
+      text,
     }, dateString);
 
-    return res.json({ message: "Email scheduled." });
+    return res.json({ message: 'Email scheduled.' });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }

@@ -8,7 +8,7 @@ const lotacaoSchema = new mongoose.Schema({
   description: {
     type: String,
     require: true,
-   
+
   },
   createdAt: {
     type: Date,

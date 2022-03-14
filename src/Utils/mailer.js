@@ -1,9 +1,11 @@
-const nodemailer = require("nodemailer");
-var schedule = require("node-schedule");
-require("dotenv").config();
-const moment = require("moment-timezone");
+const nodemailer = require('nodemailer');
+const schedule = require('node-schedule');
+require('dotenv').config();
+// const moment = require('moment-timezone');
 
-const { host, port, email, pass } = process.env;
+const {
+  host, port, email, pass,
+} = process.env;
 
 const transporter = nodemailer.createTransport({
   host,
@@ -19,12 +21,11 @@ const sendEmail = (mailOption) => {
 };
 
 const scheduleEmail = (mailOption, dateString) => {
-  if(!dateString){ 
+  if (!dateString) {
     sendEmail(mailOption);
-  }
-  else{
-    var date = new Date(dateString);
-    date.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+  } else {
+    const date = new Date(dateString);
+    date.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
     schedule.scheduleJob(date, () => sendEmail(mailOption));
   }
 };

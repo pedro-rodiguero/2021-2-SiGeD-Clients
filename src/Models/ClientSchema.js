@@ -29,8 +29,8 @@ const clientSchema = new mongoose.Schema({
   },
   location: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:'Lotacao',
-    required:false,
+    ref: 'Lotacao',
+    required: false,
   },
   address: {
     type: String,
