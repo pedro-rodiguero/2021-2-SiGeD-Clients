@@ -7,9 +7,9 @@ describe('Sample Test', () => {
 
 
   const lotacao = {
-    name:"1° DP",
-    description:"1° DP de go",
-    lotacaoID:"6089c3538dfebe44555bc17e"
+    name: "1° DP",
+    description: "1° DP de go",
+    lotacaoID: "6089c3538dfebe44555bc17e"
   };
 
   const client = {
@@ -190,7 +190,7 @@ describe('Sample Test', () => {
     };
     const res = await request(app).post('/clients/create/').set('x-access-token', token).send(errorClient);
     expect(res.statusCode).toBe(400);
-    expect(res.body.message).toEqual(["invalid name", "invalid cpf", "invalid email","invalid phone", "invalid secondary phone"]);
+    expect(res.body.message).toEqual(["invalid name", "invalid cpf", "invalid email", "invalid phone", "invalid secondary phone"]);
     done();
   });
 
@@ -350,7 +350,7 @@ describe('Sample Test', () => {
     };
     const res = await request(app).post('/feature/create/').set('x-access-token', token).send(invalidFeature);
     expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({"message": ["invalid name"]});
+    expect(res.body).toEqual({ "message": ["invalid name"] });
     done();
   });
 
@@ -362,7 +362,7 @@ describe('Sample Test', () => {
     }
     const res = await request(app).post('/feature/create/').set('x-access-token', token).send(invalidFeature);
     expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({"message": ['invalid description']});
+    expect(res.body).toEqual({ "message": ['invalid description'] });
     done();
   });
 
@@ -374,14 +374,14 @@ describe('Sample Test', () => {
     }
     const res = await request(app).post('/feature/create/').set('x-access-token', token).send(invalidFeature);
     expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({"message": ['invalid color']});
+    expect(res.body).toEqual({ "message": ['invalid color'] });
     done();
   });
 
   it('Post feature invalid token', async (done) => {
     const res = await request(app).post('/feature/create/').set('x-access-token', 'invalidToken').send(feature);
     expect(res.statusCode).toBe(500);
-    expect(res.body).toEqual({"auth": false, "message": "The token could not be authenticated."})
+    expect(res.body).toEqual({ "auth": false, "message": "The token could not be authenticated." })
     done();
   });
 
@@ -405,7 +405,7 @@ describe('Sample Test', () => {
   it('Get feature with invalid token', async (done) => {
     const res = await request(app).get('/features/').set('x-access-token', 'invalidToken');
     expect(res.statusCode).toBe(500);
-    expect(res.body).toEqual({"auth": false, "message": "The token could not be authenticated."})
+    expect(res.body).toEqual({ "auth": false, "message": "The token could not be authenticated." })
     done();
   });
 
@@ -433,14 +433,14 @@ describe('Sample Test', () => {
     }
     const res = await request(app).put(`/feature/update/${featureID}`).set('x-access-token', token).send(editFeatureInvalid);
     expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({"message": ['invalid name', 'invalid description', 'invalid color']});
+    expect(res.body).toEqual({ "message": ['invalid name', 'invalid description', 'invalid color'] });
     done();
   });
 
   it('Put feature with invalid token', async (done) => {
     const res = await request(app).put(`/feature/update/${featureID}`).set('x-access-token', 'invalidToken').send(editFeature);
     expect(res.statusCode).toBe(500);
-    expect(res.body).toEqual({"auth": false, "message": "The token could not be authenticated."})
+    expect(res.body).toEqual({ "auth": false, "message": "The token could not be authenticated." })
     done();
   });
 
@@ -470,21 +470,59 @@ describe('Sample Test', () => {
   it('Get features by using invalid ID', async (done) => {
     const res = await request(app).post('/featuresbyid/').set('x-access-token', token).send({ featuresList: [123] });
     expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({ "message": "Invalid ID" }) 
+    expect(res.body).toEqual({ "message": "Invalid ID" })
     done();
   });
-  
+
   it('delete feature', async (done) => {
     const res = await request(app).delete(`/feature/delete/${featureID}`).set('x-access-token', token);
     expect(res.statusCode).toBe(200);
-    expect(res.body).toEqual({"message": "success"});
+    expect(res.body).toEqual({ "message": "success" });
     done();
   });
 
   it('delete feature with invalid ID', async (done) => {
     const res = await request(app).delete('/feature/delete/false').set('x-access-token', token);
     expect(res.statusCode).toBe(400);
-    expect(res.body).toEqual({"message": "Invalid ID"});
+    expect(res.body).toEqual({ "message": "Invalid ID" });
+    done();
+  });
+
+  // Testes de lotação
+  it('Create a lotacao', async (done) => {
+    const res = await request(app).post('/lotacao/create/').set('x-access-token', token).send({
+      name: "1° DP",
+      description: "1° DP de Goias"
+    });
+    expect(res.statusCode).toBe(200);
+
+    done();
+  });
+
+  it('List All lotacao', async (done) => {
+    const res = await request(app).get('/lotacao/').set('x-access-token', token);
+    expect(res.statusCode).toBe(200);
+    done();
+  });
+
+  it('Update a lotacao', async (done) => {
+    const res1 = await request(app).post('/lotacao/create/').set('x-access-token', token).send(lotacao);
+    const res = await request(app).put('/lotacao/update/6089c3538dfebe44555bc17e').set('x-access-token', token);
+    expect(res.statusCode).toBe(200);
+    done();
+  });
+
+  it('Delete a lotacao', async (done) => {
+    await request(app).post('/lotacao/create/').set('x-access-token', token).send(lotacao);
+    const res = await request(app).delete('/lotacao/delete/6089c3538dfebe44555bc17e').set('x-access-token', token);
+    expect(res.statusCode).toBe(200);
+    done();
+  });
+
+  it('Delete a invalid lotacao', async (done) => {
+    await request(app).post('/lotacao/create/').set('x-access-token', token).send(lotacao);
+    const res = await request(app).delete('/lotacao/delete/23923293').set('x-access-token', token);
+    expect(res.statusCode).toBe(400);
     done();
   });
 });
