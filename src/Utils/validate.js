@@ -14,7 +14,7 @@ const validateEmail = (email) => {
 };
 
 const validatePhone = (phone) => {
-  const regex = /^[0-9]{8,}$/;
+  const regex = /^[0-9]{10,11}$/;
   return regex.test(phone);
 };
 
