@@ -15,9 +15,9 @@ describe('Sample Test', () => {
   const client = {
     name: 'Davi Rogerio',
     email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
-    cpf: Math.floor(10000000000 + Math.random() * 90000000000).toString(),
-    phone: '988884444',
-    secondaryPhone: '988884445',
+    cpf: '07711229003',
+    phone: '61988884444',
+    secondaryPhone: '61988884445',
     office: 'Policial',
     location: '6089c3538dfebe44555bc17e',
     features: ['608dc9a61286380b31a51233'],
@@ -27,10 +27,10 @@ describe('Sample Test', () => {
   };
   const falseClient = {
     name: 'Bruno',
-    cpf: Math.floor(10000000000 + Math.random() * 90000000000).toString(),
+    cpf: '20788789015',
     email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
-    phone: '977854444',
-    secondaryPhone: '977854445',
+    phone: '61977854444',
+    secondaryPhone: '61977854445',
     office: 'Policial',
     location: '6089c3538dfebe44555bc17e',
     features: ['608dc9a61286380b31a51233'],
@@ -68,10 +68,10 @@ describe('Sample Test', () => {
 
   const client1 = {
     name: 'Cliente Um',
-    cpf: '59812441000',
+    cpf: '58714685000',
     email: 'um@gmail.com',
-    phone: '988884401',
-    secondaryPhone: '988884410',
+    phone: '61988884401',
+    secondaryPhone: '61988884410',
     office: 'Policial',
     location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
@@ -79,10 +79,10 @@ describe('Sample Test', () => {
   };
   const client2 = {
     name: 'Cliente Dois',
-    cpf: '88776555003',
+    cpf: '96731355097',
     email: 'dois@gmail.com',
-    phone: '988884402',
-    secondaryPhone: '988884420',
+    phone: '61988884402',
+    secondaryPhone: '61988884420',
     office: 'Policial',
     location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
@@ -90,10 +90,10 @@ describe('Sample Test', () => {
   };
   const client3 = {
     name: 'Cliente Três',
-    cpf: '19026752075',
+    cpf: '52062057024',
     email: 'tres@gmail.com',
-    phone: '988884403',
-    secondaryPhone: '988884430',
+    phone: '61988884403',
+    secondaryPhone: '61988884430',
     office: 'Policial',
     location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
@@ -101,10 +101,10 @@ describe('Sample Test', () => {
   };
   const client4 = {
     name: 'Cliente Quatro',
-    cpf: '77791867095',
+    cpf: '71104219026',
     email: 'quatro@gmail.com',
-    phone: '988884404',
-    secondaryPhone: '988884440',
+    phone: '61988884404',
+    secondaryPhone: '61988884440',
     office: 'Policial',
     location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
@@ -112,10 +112,10 @@ describe('Sample Test', () => {
   };
   const client5 = {
     name: 'Cliente Cinco',
-    cpf: '98094963034',
+    cpf: '21442505028',
     email: 'cinco@gmail.com',
-    phone: '988884405',
-    secondaryPhone: '988884450',
+    phone: '61988884405',
+    secondaryPhone: '61988884450',
     office: 'Policial',
     location: '6089c3538dfebe44555bc17e',
     address: 'Brasília',
@@ -259,9 +259,9 @@ describe('Sample Test', () => {
     const updatedClientData = {
       name: 'Davi Rogerio',
       email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
-      cpf: Math.floor(10000000000 + Math.random() * 90000000000).toString(),
-      phone: '988884444',
-      secondaryPhone: '988884445',
+      cpf: '07711229003',
+      phone: '61988884444',
+      secondaryPhone: '61988884445',
       office: 'Policial',
       location: '6089c3538dfebe44555bc17e',
       address: 'Brasília',
@@ -308,10 +308,10 @@ describe('Sample Test', () => {
   it('Get client history', async (done) => {
     const client = {
       name: 'Vitor Leal',
-      cpf: Math.floor(10000000000 + Math.random() * 90000000000).toString(),
+      cpf: '05455595024',
       email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
-      phone: '99887564',
-      secondaryPhone: '996687342',
+      phone: '61998875641',
+      secondaryPhone: '61996687342',
       office: 'Policial',
       location: '6089c3538dfebe44555bc17e',
       address: 'Aguas Claras',
