@@ -4,11 +4,10 @@ const validateName = (name) => {
 };
 
 const validateCpf = (cpf) => {
-  console.log(cpf);
-  if (!checaCPFRepetido(cpf) && !checaEstruturaCPF(cpf)){
-      return true;
+  if (!checaCPFRepetido(cpf) || !checaEstruturaCPF(cpf)){
+      return false;
   }
-  return false;
+  return true;
 };
 
 function checaCPFRepetido(cpf) {
@@ -32,7 +31,6 @@ function checaCPFRepetido(cpf) {
           cpfValido = false;
       }
   });
-  console.log(cpf);
   return cpfValido;
 }
 
