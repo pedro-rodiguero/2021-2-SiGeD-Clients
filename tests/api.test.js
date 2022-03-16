@@ -259,9 +259,9 @@ describe('Sample Test', () => {
     const updatedClientData = {
       name: 'Davi Rogerio',
       email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
-      cpf: Math.floor(10000000000 + Math.random() * 90000000000).toString(),
-      phone: '988884444',
-      secondaryPhone: '988884445',
+      cpf: '07711229003',
+      phone: '61988884444',
+      secondaryPhone: '61988884445',
       office: 'Policial',
       location: '6089c3538dfebe44555bc17e',
       address: 'Brasília',
@@ -308,10 +308,10 @@ describe('Sample Test', () => {
   it('Get client history', async (done) => {
     const client = {
       name: 'Vitor Leal',
-      cpf: Math.floor(10000000000 + Math.random() * 90000000000).toString(),
+      cpf: '05455595024',
       email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
-      phone: '99887564',
-      secondaryPhone: '996687342',
+      phone: '61998875641',
+      secondaryPhone: '61996687342',
       office: 'Policial',
       location: '6089c3538dfebe44555bc17e',
       address: 'Aguas Claras',

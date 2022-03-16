@@ -3,67 +3,67 @@ const validateName = (name) => {
   return regex.test(name);
 };
 
-const validateCpf = (cpf) => {
-  if (!checaCPFRepetido(cpf) || !checaEstruturaCPF(cpf)){
-      return false;
-  }
-  return true;
-};
-
 function checaCPFRepetido(cpf) {
   const valoresRepetidos = [
-      '00000000000',
-      '11111111111',
-      '22222222222',
-      '33333333333',
-      '44444444444',
-      '55555555555',
-      '66666666666',
-      '77777777777',
-      '88888888888',
-      '99999999999'
-  ]
+    '00000000000',
+    '11111111111',
+    '22222222222',
+    '33333333333',
+    '44444444444',
+    '55555555555',
+    '66666666666',
+    '77777777777',
+    '88888888888',
+    '99999999999',
+  ];
 
   let cpfValido = true;
 
-  valoresRepetidos.forEach(valor => {
-      if(valor === cpf){
-          cpfValido = false;
-      }
+  valoresRepetidos.forEach((valor) => {
+    if (valor === cpf) {
+      cpfValido = false;
+    }
   });
   return cpfValido;
+}
+
+function confirmaDigito(soma) {
+  return 11 - (soma % 11);
+}
+
+function checaDigitoVerificador(cpf, multiplicador) {
+  if (multiplicador >= 12) {
+    return true;
+  }
+
+  let multiplicadorInicial = multiplicador;
+  let soma = 0;
+  const cpfSemDigitos = cpf.substr(0, multiplicador - 1).split('');
+  const digitoVerificador = cpf.charAt(multiplicador - 1);
+  for (let contador = 0; multiplicadorInicial > 1; multiplicadorInicial -= 1, contador += 1) {
+    soma += (cpfSemDigitos[contador] * multiplicadorInicial);
+  }
+
+  if ((digitoVerificador === confirmaDigito(soma))
+    || (digitoVerificador === 0 && confirmaDigito(soma) === 10)) {
+    return checaDigitoVerificador(cpf, multiplicador + 1);
+  }
+
+  return false;
 }
 
 function checaEstruturaCPF(cpf) {
   const multiplicador = 10;
 
-  return checaDigitoVerificador(cpf,multiplicador);
+  return checaDigitoVerificador(cpf, multiplicador);
 }
 
-
-function checaDigitoVerificador(cpf,multiplicador) {
-  if(multiplicador >= 12){
-      return true
+const validateCpf = (cpf) => {
+  if (!checaCPFRepetido(cpf) || !checaEstruturaCPF(cpf)) {
+    return false;
   }
-
-  let multiplicadorInicial = multiplicador; 
-  let soma = 0;
-  const cpfSemDigitos = cpf.substr(0, multiplicador - 1).split('');
-  const digitoVerificador = cpf.charAt(multiplicador - 1);
-  for(let contador = 0; multiplicadorInicial > 1; multiplicadorInicial--, contador++){
-      soma = soma + (cpfSemDigitos[contador] * multiplicadorInicial);
-  }
-
-  if((digitoVerificador == confirmaDigito(soma)) || (digitoVerificador == 0 && confirmaDigito(soma) == 10)){
-      return checaDigitoVerificador(cpf,multiplicador + 1);
-  }
-
-  return false
-}
-
-function confirmaDigito(soma){
-  return 11 - (soma % 11);
-}
+  return true;
+};
 
 const validateEmail = (email) => {
   const regex = /^(([^<>()[\]\\.,;:\s@\\"]+(\.[^<>()[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
