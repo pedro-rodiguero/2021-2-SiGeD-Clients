@@ -15,7 +15,7 @@ describe('Sample Test', () => {
   const client = {
     name: 'Davi Rogerio',
     email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
-    cpf: '07711229003',
+    cpf: '93896681079',
     phone: '61988884444',
     secondaryPhone: '61988884445',
     office: 'Policial',
@@ -27,7 +27,7 @@ describe('Sample Test', () => {
   };
   const falseClient = {
     name: 'Bruno',
-    cpf: '20788789015',
+    cpf: '92544008075',
     email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
     phone: '61977854444',
     secondaryPhone: '61977854445',
