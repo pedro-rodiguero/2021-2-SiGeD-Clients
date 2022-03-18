@@ -1,26 +1,24 @@
 # API de Clientes
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL3-blue.svg)](https://opensource.org/licenses/gpl-3.0.html)
-[![codecov](https://codecov.io/gh/fga-eps-mds/2020-2-SiGeD-Clients/branch/master/graph/badge.svg?token=06OWCVXW69)](https://codecov.io/gh/fga-eps-mds/2020-2-SiGeD-Clients)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2020-2-G4-Clients&metric=alert_status)](https://sonarcloud.io/dashboard?id=fga-eps-mds_2020-2-G4-Clients)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1df404296f3bc6768bb4/maintainability)](https://codeclimate.com/github/fga-eps-mds/2020-2-SiGeD-Clients/maintainability)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fga-eps-mds_2021-2-SiGeD-Clients&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fga-eps-mds_2021-2-SiGeD-Clients)
 
 
-Essa API faz parte da arquitetura de microsserviços do projeto [`SiGeD`](https://github.com/fga-eps-mds/2020-2-SiGeD), sua funcionalidade  é possibilitar o controle dos dados dos clientes. 
+Essa API faz parte da arquitetura de microsserviços do projeto [`SiGeD`](https://github.com/fga-eps-mds/2021-2-SiGeD-Doc), sua funcionalidade é possibilitar o controle dos dados dos clientes. 
 
 ## Como contribuir?
 
-Gostaria de contribuir com nosso projeto? Acesse o nosso [guia de contribuição](https://fga-eps-mds.github.io/2020-2-SiGeD/CONTRIBUTING/) onde são explicados todos os passos.
-Caso reste duvidas você também pode entrar em contato conosco criando uma issue.
+Gostaria de contribuir com nosso projeto? Acesse o nosso [guia de contribuição](https://fga-eps-mds.github.io/2021-2-SiGeD-Doc/contribuicao/) onde são explicados todos os passos.
+Caso reste alguma dúvida, você também pode entrar em contato conosco criando uma issue.
 
 ## Documentação
 
 A documentação dessa API foi gerada pelo postman e pode ser acessada [nessa url](https://documenter.getpostman.com/view/5363481/UUxwDV7D)
 
-A documentação do projeto pode ser acessada pelo nosso site em https://fga-eps-mds.github.io/2020-2-SiGeD/ ou você pode acessar pela [SiGeD Documentação](https://fga-eps-mds.github.io/2020-2-SiGeD/home/)
+A documentação do projeto pode ser acessada pelo nosso site em https://fga-eps-mds.github.io/2021-2-SiGeD-Doc/.
 
 ## Testes
 
-Todas as funções adicionadas nessa API devem ser testadas, o repositório aceita até 10% do total de lihas não testadas. Para rodar os testes nesse repositŕio deve ser executado o comando:
+Todas as funções adicionadas nessa API devem ser testadas, o repositório aceita até 20% do total de lihas não testadas. Para rodar os testes nesse repositório deve ser executado o comando:
 
 ```bash
 docker-compose run api_clients bash -c  "yarn && yarn jest --coverage --forceExit"

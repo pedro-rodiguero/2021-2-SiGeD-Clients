@@ -1,8 +1,8 @@
 name: Metrics
 
-on: 
-  pull_request:
-   types: [ closed ]
+on:
+  push:
+    branches: [ master ] 
 
 jobs:
   release:
