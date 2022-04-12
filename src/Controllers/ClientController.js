@@ -11,6 +11,10 @@ const accessList = async (req, res) => {
     const clients = await Client.find({ active }).populate('location');
     return res.json(clients);
   }
+  if (active === 'null') {
+    const clients = await Client.find().populate('location');
+    return res.json(clients);
+  }
 
   const clients = await Client.find({ active: true }).populate('location');
 
