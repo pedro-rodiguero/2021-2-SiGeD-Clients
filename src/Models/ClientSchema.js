@@ -73,6 +73,23 @@ const clientSchema = new mongoose.Schema({
     type: String,
     require: false,
   },
+  gender: {
+    type: String,
+    require: true,
+    default: 'Masculino',
+  },
+  birthdate: {
+    type: Date,
+    require: true,
+  },
+  healthRestrictions: {
+    type: String,
+    require: false,
+  },
+  administrativeRestrictions: {
+    type: String,
+    require: false,
+  },
 
   createdAt: {
     type: Date,

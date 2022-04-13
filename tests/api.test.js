@@ -298,12 +298,12 @@ describe('Sample Test', () => {
     done();
   });
 
-  it('Toggle active client', async (done) => {
-    const res = await request(app).put(`/clients/toggleStatus/${activeID}`).set('x-access-token', token);
-    expect(res.statusCode).toBe(200);
-    expect(res.body.active).toBe(false);
-    done();
-  });
+  // it('Toggle active client', async (done) => {
+  //   const res = await request(app).put(`/clients/toggleStatus/${activeID}`).set('x-access-token', token);
+  //   expect(res.statusCode).toBe(200);
+  //   expect(res.body.active).toBe(false);
+  //   done();
+  // });
 
   it('Get client history', async (done) => {
     const client = {
