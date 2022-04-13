@@ -126,7 +126,7 @@ Para criar um novo cliente, envie os dados nesse formato:
 **PUT: `/clients/update/:id`**
 
 Para atualizar os dados do cliente, envie os dados atualizados seguindo o padrão:
-
+ 
 ```json
 {
     "name": "Nome do Cliente",
