@@ -27,6 +27,7 @@ routes.post(
   ClientController.sendEmailToClient,
 );
 routes.get('/features/', verifyJWT, FeatureController.getFeaturesList);
+routes.get('/openfeatures/', verifyJWT, FeatureController.getOpenFeaturesList);
 routes.post('/featuresbyid/', verifyJWT, FeatureController.getFeaturesByID);
 routes.post('/feature/create', verifyJWT, FeatureController.createFeature);
 routes.delete(
@@ -37,6 +38,7 @@ routes.delete(
 routes.put('/feature/update/:id', verifyJWT, FeatureController.updateFeature);
 routes.post('/lotacao/create', verifyJWT, LotacaoController.create);
 routes.get('/lotacao', verifyJWT, LotacaoController.allLotacao);
+routes.get('/openlotacao', verifyJWT, LotacaoController.allOpenLotacao);
 routes.put('/lotacao/update/:id', verifyJWT, LotacaoController.update);
 routes.delete(
   '/lotacao/delete/:id',

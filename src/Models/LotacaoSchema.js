@@ -18,6 +18,11 @@ const lotacaoSchema = new mongoose.Schema({
     type: Date,
     require: true,
   },
+  active:{
+    type: Boolean,
+    require: true,
+    default: true,
+  }
 });
 
 module.exports = mongoose.model('Lotacao', lotacaoSchema);

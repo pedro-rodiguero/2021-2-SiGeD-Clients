@@ -21,6 +21,11 @@ const featureSchema = new mongoose.Schema({
     type: Date,
     require: true,
   },
+  active:{
+    type: Boolean,
+    require: true,
+    default: true,
+  }
 });
 
 module.exports = mongoose.model('Feature', featureSchema);

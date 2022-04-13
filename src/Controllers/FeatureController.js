@@ -1,9 +1,16 @@
 const moment = require('moment-timezone');
 const Feature = require('../Models/FeatureSchema');
+const Client = require('../Models/ClientSchema');
 const { validateFeatures } = require('../Utils/validate');
 
 const getFeaturesList = async (req, res) => {
   const features = await Feature.find();
+
+  return res.json(features);
+};
+
+const getOpenFeaturesList = async (req, res) => {
+  const features = await Feature.find({ active: true });
 
   return res.json(features);
 };
@@ -66,16 +73,37 @@ const updateFeature = async (req, res) => {
 };
 
 const deleteFeature = async (req, res) => {
-  const { id } = req.params;
-
   try {
-    await Feature.deleteOne({ _id: id });
-    return res.status(200).json({ message: 'success' });
-  } catch (error) {
-    return res.status(400).json({ message: 'Invalid ID' });
+    const { id } = req.params;
+
+    const featureFound = await Feature.findOne({ _id: id });
+
+    const clientFound = await Client.find({ active: true, features: featureFound });
+
+    if(clientFound.length > 0){
+      startModal();
+      return;
+    }
+
+    active = !featureFound.active
+
+    const updateReturn = await Feature.findOneAndUpdate(
+      { _id: id },
+      { active },
+      { new: true },
+      (err, feature) => {
+        if (err) {
+          return res.status(400).json(err);
+        }
+        return res.json(feature);
+      },
+    );
+    return updateReturn;
+  } catch (err) {
+    return res.status(400).json({ message: 'Feature not found' });
   }
 };
 
 module.exports = {
-  getFeaturesList, getFeaturesByID, createFeature, updateFeature, deleteFeature,
+  getFeaturesList, getOpenFeaturesList, getFeaturesByID, createFeature, updateFeature, deleteFeature,
 };
