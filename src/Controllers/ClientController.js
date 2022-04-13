@@ -30,8 +30,9 @@ const access = async (req, res) => {
 
 const create = async (req, res) => {
   const {
-    name, cpf, email, phone, secondaryPhone, address, office,
-    active, location, userID, features, image,
+    name, cpf, email, phone, secondaryPhone, address,
+    gender, birthdate, healthRestrictions, administrativeRestrictions,
+    office, active, location, userID, features, image,
   } = req.body;
 
   const errorMessage = validation.validate(
@@ -69,6 +70,10 @@ const create = async (req, res) => {
         label: 'created',
       },
       image,
+      gender,
+      birthdate,
+      healthRestrictions,
+      administrativeRestrictions,
       createdAt: date,
       updatedAt: date,
     });
@@ -89,6 +94,10 @@ const update = async (req, res) => {
     secondaryPhone,
     office,
     address,
+    gender,
+    birthdate,
+    healthRestrictions,
+    administrativeRestrictions,
     location,
     userID,
     features,
@@ -133,6 +142,10 @@ const update = async (req, res) => {
         address,
         history: clientHistory,
         image,
+        gender,
+        birthdate,
+        healthRestrictions,
+        administrativeRestrictions,
         updatedAt: moment
           .utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss'))
           .toDate(),
