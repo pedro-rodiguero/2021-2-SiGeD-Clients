@@ -4,11 +4,16 @@ const validation = require('../Utils/validate');
 const { scheduleEmail } = require('../Utils/mailer');
 const verifyChanges = require('../Utils/verifyChanges');
 const { getUser } = require('../Services/Axios/userService');
+const { getDemands } = require('../Services/Axios/demandService');
 
 const accessList = async (req, res) => {
   const { active } = req.query;
   if (active === 'false') {
     const clients = await Client.find({ active }).populate('location');
+    return res.json(clients);
+  }
+  if (active === 'null') {
+    const clients = await Client.find().populate('location');
     return res.json(clients);
   }
 
@@ -147,9 +152,23 @@ const update = async (req, res) => {
 
 const toggleStatus = async (req, res) => {
   try {
+    const token = req.headers['x-access-token'];
     const { id } = req.params;
 
     const clientFound = await Client.findOne({ _id: id });
+
+    const demands = await getDemands(token);
+
+    if (demands.error) {
+      return res.status(400).json({ err: demands.error });
+    }
+
+    for(var i=0; i<demands.length; i++){
+      if(demands[i].clientID === id && demands[i].open === true){
+        startModal();
+        return;
+      }
+    }
 
     let { active } = clientFound;
 
