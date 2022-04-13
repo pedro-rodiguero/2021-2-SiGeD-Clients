@@ -4,11 +4,16 @@ const validation = require('../Utils/validate');
 const { scheduleEmail } = require('../Utils/mailer');
 const verifyChanges = require('../Utils/verifyChanges');
 const { getUser } = require('../Services/Axios/userService');
+const { getDemands } = require('../Services/Axios/demandService');
 
 const accessList = async (req, res) => {
   const { active } = req.query;
   if (active === 'false') {
     const clients = await Client.find({ active }).populate('location');
+    return res.json(clients);
+  }
+  if (active === 'null') {
+    const clients = await Client.find().populate('location');
     return res.json(clients);
   }
 
@@ -30,8 +35,9 @@ const access = async (req, res) => {
 
 const create = async (req, res) => {
   const {
-    name, cpf, email, phone, secondaryPhone, address, office,
-    active, location, userID, features, image,
+    name, cpf, email, phone, secondaryPhone, address,
+    gender, birthdate, healthRestrictions, administrativeRestrictions,
+    office, active, location, userID, features, image,
   } = req.body;
 
   const errorMessage = validation.validate(
@@ -69,6 +75,10 @@ const create = async (req, res) => {
         label: 'created',
       },
       image,
+      gender,
+      birthdate,
+      healthRestrictions,
+      administrativeRestrictions,
       createdAt: date,
       updatedAt: date,
     });
@@ -89,6 +99,10 @@ const update = async (req, res) => {
     secondaryPhone,
     office,
     address,
+    gender,
+    birthdate,
+    healthRestrictions,
+    administrativeRestrictions,
     location,
     userID,
     features,
@@ -133,6 +147,10 @@ const update = async (req, res) => {
         address,
         history: clientHistory,
         image,
+        gender,
+        birthdate,
+        healthRestrictions,
+        administrativeRestrictions,
         updatedAt: moment
           .utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss'))
           .toDate(),
@@ -147,9 +165,23 @@ const update = async (req, res) => {
 
 const toggleStatus = async (req, res) => {
   try {
+    const token = req.headers['x-access-token'];
     const { id } = req.params;
 
     const clientFound = await Client.findOne({ _id: id });
+
+    const demands = await getDemands(token);
+
+    if (demands.error) {
+      return res.status(400).json({ err: demands.error });
+    }
+
+    for(var i=0; i<demands.length; i++){
+      if(demands[i].clientID === id && demands[i].open === true){
+        startModal();
+        return;
+      }
+    }
 
     let { active } = clientFound;
 
