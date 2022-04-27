@@ -122,7 +122,7 @@ Para criar um novo cliente, envie os dados nesse formato:
     "city": "Cidade"
 }
 ```
-
+ 
 **PUT: `/clients/update/:id`**
 
 Para atualizar os dados do cliente, envie os dados atualizados seguindo o padrão:
