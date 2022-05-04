@@ -3,8 +3,16 @@ const validateName = (name) => {
   return regex.test(name);
 };
 
-function checaCPFRepetido(cpf) {
-  const valoresRepetidos = [
+function validaCPF(cpf) {
+  let Soma = 0
+  let Resto
+
+  const cpfToValidate = cpf.toString()
+
+  if (cpfToValidate.length !== 11)
+    return false
+
+  if ([
     '00000000000',
     '11111111111',
     '22222222222',
@@ -15,53 +23,39 @@ function checaCPFRepetido(cpf) {
     '77777777777',
     '88888888888',
     '99999999999',
-  ];
+  ].indexOf(cpfToValidate) !== -1)
+    return false
 
-  let cpfValido = true;
+  for (i = 1; i <= 9; i++)
+    Soma = Soma + parseInt(cpfToValidate.substring(i - 1, i)) * (11 - i);
 
-  valoresRepetidos.forEach((valor) => {
-    if (valor === cpf) {
-      cpfValido = false;
-    }
-  });
-  return cpfValido;
-}
+  Resto = (Soma * 10) % 11
 
-function confirmaDigito(soma) {
-  return 11 - (soma % 11);
-}
+  if ((Resto == 10) || (Resto == 11))
+    Resto = 0
 
-function checaDigitoVerificador(cpf, multiplicador) {
-  if (multiplicador >= 12) {
-    return true;
-  }
+  if (Resto != parseInt(cpfToValidate.substring(9, 10)))
+    return false
 
-  let multiplicadorInicial = multiplicador;
-  let soma = 0;
-  const cpfSemDigitos = cpf.substr(0, multiplicador - 1).split('');
-  const digitoVerificador = cpf.charAt(multiplicador - 1);
-  for (let contador = 0; multiplicadorInicial > 1; multiplicadorInicial -= 1, contador += 1) {
-    soma += (cpfSemDigitos[contador] * multiplicadorInicial);
-  }
+  Soma = 0
 
-  if ((parseInt(10, digitoVerificador) === confirmaDigito(soma)) || (digitoVerificador === 0 && confirmaDigito(soma) === 10)) {
-    return checaDigitoVerificador(cpf, multiplicador + 1);
-  }
+  for (i = 1; i <= 10; i++)
+    Soma = Soma + parseInt(cpfToValidate.substring(i - 1, i)) * (12 - i)
 
-  return false;
-}
+  Resto = (Soma * 10) % 11
 
-function checaEstruturaCPF(cpf) {
-  const multiplicador = 10;
+  if ((Resto == 10) || (Resto == 11))
+    Resto = 0
 
-  return checaDigitoVerificador(cpf, multiplicador);
+  if (Resto != parseInt(cpfToValidate.substring(10, 11)))
+    return false
+
+  return true
 }
 
 const validateCpf = (cpf) => {
-  if (!checaCPFRepetido(cpf) || !checaEstruturaCPF(cpf)) {
-    return false;
-  }
-  return true;
+  const result = validaCPF(cpf)
+  return result
 };
 
 const validateEmail = (email) => {
