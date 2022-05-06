@@ -13,6 +13,7 @@ describe('Sample Test', () => {
   };
 
   const client = {
+    active: true,
     name: 'Davi Rogerio',
     email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
     cpf: '93896681079',
@@ -257,6 +258,7 @@ describe('Sample Test', () => {
 
   it('Update client', async (done) => {
     const updatedClientData = {
+      active: true,
       name: 'Davi Rogerio',
       email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
       cpf: '07711229003',
