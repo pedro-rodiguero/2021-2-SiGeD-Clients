@@ -150,7 +150,7 @@ const update = async (req, res) => {
     );
     return res.json(client2);
   } catch (error) {
-    return res.status(400).json({ duplicated: error.keyValue });
+    return res.status(400).json({ message: error.keyValue });
   }
 };
 
@@ -219,9 +219,6 @@ const history = async (req, res) => {
         };
       }),
     );
-    if (error) {
-      return res.status(400).json({ message: error });
-    }
     return res.json(clientHistory);
   } catch {
     return res.status(400).json({ message: 'Client not found' });

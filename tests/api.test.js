@@ -352,6 +352,25 @@ describe('Sample Test', () => {
     done();
   });
 
+  it('Toggle client error', async (done) => {
+    const toggleClientData = {
+      active: false,
+      name: 'Davi Rogerio',
+      email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
+      cpf: '07711229003',
+      phone: '61988884444',
+      secondaryPhone: '61988884445',
+      office: 'Policial',
+      location: '6089c3538dfebe44555bc17e',
+      address: 'Brasília',
+      userID: '6089c3538dfebe00555bc17e'
+    }
+    idTest = 129382132103210321312;
+    const res = await request(app).put(`/clients/toggleStatus/${idTest}`).set('x-access-token', token);
+    expect(res.statusCode).toBe(400);
+    done();
+  });
+
   it('Schedule email', async (done) => {
     const emailBody = {
       dateString: '2021-04-04',

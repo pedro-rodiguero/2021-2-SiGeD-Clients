@@ -7,7 +7,6 @@ const getDemands = async (token) => {
     }).then((response) => response.data);
     return demands;
   } catch (err) {
-    console.log(err);
     return { error: 'Could not connect to api_demands' };
   }
 };
