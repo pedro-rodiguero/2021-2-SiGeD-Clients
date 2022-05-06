@@ -4,13 +4,12 @@ const validateName = (name) => {
 };
 
 function validaCPF(cpf) {
-  let Soma = 0
-  let Resto
+  let Soma = 0;
+  let Resto;
 
-  const cpfToValidate = cpf.toString()
+  const cpfToValidate = cpf.toString();
 
-  if (cpfToValidate.length !== 11)
-    return false
+  if (cpfToValidate.length !== 11) return false;
 
   if ([
     '00000000000',
@@ -23,39 +22,32 @@ function validaCPF(cpf) {
     '77777777777',
     '88888888888',
     '99999999999',
-  ].indexOf(cpfToValidate) !== -1)
-    return false
+  ].indexOf(cpfToValidate) !== -1) return false;
 
-  for (i = 1; i <= 9; i++)
-    Soma = Soma + parseInt(cpfToValidate.substring(i - 1, i)) * (11 - i);
+  for (i = 1; i <= 9; i++) Soma += parseInt(cpfToValidate.substring(i - 1, i)) * (11 - i);
 
-  Resto = (Soma * 10) % 11
+  Resto = (Soma * 10) % 11;
 
-  if ((Resto == 10) || (Resto == 11))
-    Resto = 0
+  if ((Resto == 10) || (Resto == 11)) Resto = 0;
 
-  if (Resto != parseInt(cpfToValidate.substring(9, 10)))
-    return false
+  if (Resto != parseInt(cpfToValidate.substring(9, 10))) return false;
 
-  Soma = 0
+  Soma = 0;
 
-  for (i = 1; i <= 10; i++)
-    Soma = Soma + parseInt(cpfToValidate.substring(i - 1, i)) * (12 - i)
+  for (i = 1; i <= 10; i++) Soma += parseInt(cpfToValidate.substring(i - 1, i)) * (12 - i);
 
-  Resto = (Soma * 10) % 11
+  Resto = (Soma * 10) % 11;
 
-  if ((Resto == 10) || (Resto == 11))
-    Resto = 0
+  if ((Resto == 10) || (Resto == 11)) Resto = 0;
 
-  if (Resto != parseInt(cpfToValidate.substring(10, 11)))
-    return false
+  if (Resto != parseInt(cpfToValidate.substring(10, 11))) return false;
 
-  return true
+  return true;
 }
 
 const validateCpf = (cpf) => {
-  const result = validaCPF(cpf)
-  return result
+  const result = validaCPF(cpf);
+  return result;
 };
 
 const validateEmail = (email) => {

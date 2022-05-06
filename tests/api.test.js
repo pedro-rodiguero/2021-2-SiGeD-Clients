@@ -226,8 +226,31 @@ describe('Sample Test', () => {
     done();
   });
 
+  it('Get client by id error', async (done) => {
+    idTest = 129382132103210321312;
+    const res = await request(app).get(`/clients/${idTest}`).set('x-access-token', token);
+    expect(res.statusCode).toBe(400);
+    done();
+  });
+
   it('Get deactivated clients', async (done) => {
     const res = await request(app).get('/clients?active=false').set('x-access-token', token);
+    const lastIdx = res.body.length - 1; // Get last client on list
+    expect(res.statusCode).toBe(200);
+    expect(res.body[lastIdx].address).toBe(falseClient.address);
+    //expect(res.body[lastIdx].location).toBe(falseClient.location);
+    expect(res.body[lastIdx].email).toBe(falseClient.email);
+    expect(res.body[lastIdx].office).toBe(falseClient.office);
+    expect(res.body[lastIdx].cpf).toBe(falseClient.cpf);
+    expect(res.body[lastIdx].name).toBe(falseClient.name);
+    expect(res.body[lastIdx].phone).toBe(falseClient.phone);
+    expect(res.body[lastIdx].secondaryPhone).toBe(falseClient.secondaryPhone);
+    expect(res.body[lastIdx].active).toBe(false);
+    done();
+  });
+
+  it('Get null clients', async (done) => {
+    const res = await request(app).get('/clients?active=null').set('x-access-token', token);
     const lastIdx = res.body.length - 1; // Get last client on list
     expect(res.statusCode).toBe(200);
     expect(res.body[lastIdx].address).toBe(falseClient.address);
@@ -279,6 +302,46 @@ describe('Sample Test', () => {
     expect(res.body.office).toBe(updatedClientData.office);
     expect(res.body.location).toBe(updatedClientData.location);
     expect(res.body.address).toBe(updatedClientData.address);
+    activeID = res.body._id;
+    done();
+  });
+
+  it('Toggle active client', async (done) => {
+    const toggleClientData = {
+      active: false,
+      name: 'Davi Rogerio',
+      email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
+      cpf: '07711229003',
+      phone: '61988884444',
+      secondaryPhone: '61988884445',
+      office: 'Policial',
+      location: '6089c3538dfebe44555bc17e',
+      address: 'Brasília',
+      userID: '6089c3538dfebe00555bc17e'
+    }
+    const res = await request(app).put(`/clients/toggleStatus/${activeID}`).set('x-access-token', token);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.active).toBe(toggleClientData.active);
+    expect(res.body.name).toBe(toggleClientData.name);
+    //expect(res.body.cpf).toBe(toggleClientData.cpf);
+    //expect(res.body.email).toBe(toggleClientData.email);
+    expect(res.body.phone).toBe(toggleClientData.phone);
+    expect(res.body.secondaryPhone).toBe(toggleClientData.secondaryPhone);
+    expect(res.body.office).toBe(toggleClientData.office);
+    expect(res.body.location).toBe(toggleClientData.location);
+    expect(res.body.address).toBe(toggleClientData.address);
+    done();
+  });
+
+  it('Schedule email', async (done) => {
+    const emailBody = {
+      dateString: '2021-04-04',
+      subject: 'Assunto',
+      text: 'Agendamento'
+    }
+    const res = await request(app).post(`/clients/send-email/${activeID}`).set('x-access-token', token).send(emailBody);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.message).toBe('Email scheduled.');
     done();
   });
 
@@ -297,33 +360,6 @@ describe('Sample Test', () => {
     const res = await request(app).put(`/clients/update/${activeID}`).set('x-access-token', token).send(updatedClientData);
     expect(res.statusCode).toBe(400);
     expect(res.body.message).toEqual(['invalid name', 'invalid cpf', 'invalid email', 'invalid phone', 'invalid secondary phone']);
-    done();
-  });
-
-  it('Toggle active client', async (done) => {
-    const toggleClientData = {
-      active: true,
-      name: 'Davi Rogerio',
-      email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
-      cpf: '07711229003',
-      phone: '61988884444',
-      secondaryPhone: '61988884445',
-      office: 'Policial',
-      location: '6089c3538dfebe44555bc17e',
-      address: 'Brasília',
-      userID: '6089c3538dfebe00555bc17e'
-    }
-    const res = await request(app).put(`/clients/toggleStatus/${activeID}`).set('x-access-token', token).send(toggleClientData);
-    expect(res.statusCode).toBe(200);
-    expect(res.body.active).toBe(false);
-    expect(res.body.name).toBe(toggleClientData.name);
-    //expect(res.body.cpf).toBe(toggleClientData.cpf);
-    //expect(res.body.email).toBe(toggleClientData.email);
-    expect(res.body.phone).toBe(toggleClientData.phone);
-    expect(res.body.secondaryPhone).toBe(toggleClientData.secondaryPhone);
-    expect(res.body.office).toBe(toggleClientData.office);
-    expect(res.body.location).toBe(toggleClientData.location);
-    expect(res.body.address).toBe(toggleClientData.address);
     done();
   });
 

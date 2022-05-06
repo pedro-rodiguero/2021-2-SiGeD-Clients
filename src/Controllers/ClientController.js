@@ -172,12 +172,8 @@ const toggleStatus = async (req, res) => {
 
     const demands = await getDemands(token);
 
-    if (demands.error) {
-      return res.status(400).json({ err: demands.error });
-    }
-
-    for(var i=0; i<demands.length; i++){
-      if(demands[i].clientID === id && demands[i].open === true){
+    for (let i = 0; i < demands.length; i++) {
+      if (demands[i].clientID === id && demands[i].open === true) {
         startModal();
         return;
       }
