@@ -177,7 +177,7 @@ describe('Sample Test', () => {
     done();
   });
 
-  it('Post client error', async (done) => {
+  it('Post client invalid fields error', async (done) => {
     const errorClient = {
       name: '',
       cpf: '',
@@ -192,6 +192,25 @@ describe('Sample Test', () => {
     const res = await request(app).post('/clients/create/').set('x-access-token', token).send(errorClient);
     expect(res.statusCode).toBe(400);
     expect(res.body.message).toEqual(["invalid name", "invalid cpf", "invalid email", "invalid phone", "invalid secondary phone"]);
+    done();
+  });
+
+  it('Post client invalid user error', async (done) => {
+    const invalidUserClient = {
+      name: 'Davi Rogerio',
+      email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
+      cpf: '93896681079',
+      phone: '61988884444',
+      secondaryPhone: '61988884445',
+      office: 'Policial',
+      location: '6089c3538dfebe44555bc17e',
+      features: ['608dc9a61286380b31a51233'],
+      image: '1244365aahsbch',
+      address: 'Brasília',
+      userID: 'asdsa12'
+    };
+    const res = await request(app).post('/clients/create/').set('x-access-token', token).send(invalidUserClient);
+    expect(res.statusCode).toBe(400);
     done();
   });
 

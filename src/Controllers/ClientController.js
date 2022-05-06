@@ -51,9 +51,6 @@ const create = async (req, res) => {
   try {
     const token = req.headers['x-access-token'];
     const user = await getUser(userID, token);
-    if (user.error) {
-      return res.status(400).json({ message: user.error });
-    }
 
     const date = moment
       .utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss'))
@@ -125,15 +122,9 @@ const update = async (req, res) => {
   try {
     const token = req.headers['x-access-token'];
     const user = await getUser(userID, token);
-    if (user.error) {
-      return res.status(400).json({ message: user.error });
-    }
 
     const clientHistory = await verifyChanges(req.body, id);
     const client2 = await Client.findById(id);
-    if (client2.office !== req.body.office) {
-      await client2.update({ office: req.body.office });
-    }
     await client2.update(
       {
         name,
@@ -214,10 +205,6 @@ const history = async (req, res) => {
     const clientHistory = await Promise.all(
       clientFound.history.map(async (elem) => {
         const user = await getUser(elem.userID, token);
-        if (user.error) {
-          error = user.error;
-          return;
-        }
         return {
           label: elem.label,
           before: elem.before,
