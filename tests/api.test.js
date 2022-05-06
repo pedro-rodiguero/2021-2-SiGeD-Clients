@@ -298,12 +298,32 @@ describe('Sample Test', () => {
     done();
   });
 
-  // it('Toggle active client', async (done) => {
-  //   const res = await request(app).put(`/clients/toggleStatus/${activeID}`).set('x-access-token', token);
-  //   expect(res.statusCode).toBe(200);
-  //   expect(res.body.active).toBe(false);
-  //   done();
-  // });
+  it('Toggle active client', async (done) => {
+    const toggleClientData = {
+      active: true,
+      name: 'Davi Rogerio',
+      email: `${Math.random().toString(36).substr(2, 5)}@gmail.com`,
+      cpf: '07711229003',
+      phone: '61988884444',
+      secondaryPhone: '61988884445',
+      office: 'Policial',
+      location: '6089c3538dfebe44555bc17e',
+      address: 'Brasília',
+      userID: '6089c3538dfebe00555bc17e'
+    }
+    const res = await request(app).put(`/clients/toggleStatus/${activeID}`).set('x-access-token', token).send(toggleClientData);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.active).toBe(false);
+    expect(res.body.name).toBe(toggleClientData.name);
+    //expect(res.body.cpf).toBe(toggleClientData.cpf);
+    //expect(res.body.email).toBe(toggleClientData.email);
+    expect(res.body.phone).toBe(toggleClientData.phone);
+    expect(res.body.secondaryPhone).toBe(toggleClientData.secondaryPhone);
+    expect(res.body.office).toBe(toggleClientData.office);
+    expect(res.body.location).toBe(toggleClientData.location);
+    expect(res.body.address).toBe(toggleClientData.address);
+    done();
+  });
 
   it('Get client history', async (done) => {
     const client = {
