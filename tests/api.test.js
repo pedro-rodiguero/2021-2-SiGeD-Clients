@@ -345,6 +345,18 @@ describe('Sample Test', () => {
     done();
   });
 
+  it('Schedule email invalid client', async (done) => {
+    const emailBody = {
+      dateString: '2021-04-04',
+      subject: 'Assunto',
+      text: 'Agendamento'
+    }
+    const idTest = 123213213213214212151;
+    const res = await request(app).post(`/clients/send-email/${idTest}`).set('x-access-token', token).send(emailBody);
+    expect(res.statusCode).toBe(500);
+    done();
+  });
+
   it('Update client error', async (done) => {
     const updatedClientData = {
       name: '',

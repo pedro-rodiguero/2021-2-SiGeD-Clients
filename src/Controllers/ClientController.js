@@ -250,18 +250,9 @@ const newestFourClientsGet = async (req, res) => {
 const sendEmailToClient = async (req, res) => {
   const { id } = req.params;
   const { dateString, subject, text } = req.body;
-  if (!id) {
-    return res.status(400).json({
-      error: 'Invalid clientId',
-    });
-  }
+
   try {
     const client = await Client.findOne({ _id: id });
-    if (!client) {
-      return res.status(404).json({
-        error: 'It was not possible to find an user with this email.',
-      });
-    }
 
     scheduleEmail({
       from: process.env.email,
