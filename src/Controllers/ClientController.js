@@ -119,39 +119,35 @@ const update = async (req, res) => {
     return res.status(400).json({ message: errorMessage });
   }
 
-  try {
-    const token = req.headers['x-access-token'];
-    const user = await getUser(userID, token);
+  const token = req.headers['x-access-token'];
+  const user = await getUser(userID, token);
 
-    const clientHistory = await verifyChanges(req.body, id);
-    const client2 = await Client.findById(id);
-    await client2.update(
-      {
-        name,
-        cpf,
-        email,
-        phone,
-        secondaryPhone,
-        office,
-        location,
-        features,
-        address,
-        history: clientHistory,
-        image,
-        gender,
-        birthdate,
-        healthRestrictions,
-        administrativeRestrictions,
-        updatedAt: moment
-          .utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss'))
-          .toDate(),
-      },
-      { new: true },
-    );
-    return res.json(client2);
-  } catch (error) {
-    return res.status(400).json({ message: error.keyValue });
-  }
+  const clientHistory = await verifyChanges(req.body, id);
+  const client2 = await Client.findById(id);
+  await client2.update(
+    {
+      name,
+      cpf,
+      email,
+      phone,
+      secondaryPhone,
+      office,
+      location,
+      features,
+      address,
+      history: clientHistory,
+      image,
+      gender,
+      birthdate,
+      healthRestrictions,
+      administrativeRestrictions,
+      updatedAt: moment
+        .utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss'))
+        .toDate(),
+    },
+    { new: true },
+  );
+  return res.json(client2);
 };
 
 const toggleStatus = async (req, res) => {
