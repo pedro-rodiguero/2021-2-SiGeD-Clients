@@ -66,19 +66,17 @@ db.once("open", () => {
 
 const clientsLength = clients.length;
 
-clients.forEach(async (user, index) => {
-  await user.save((err, result) => {
-    try {
-      if (err) throw new Error(`${err?.message}`);
-      if (index === clientsLength - 1) {
-        console.log("DONE!");
-        db.close();
-      }
-    } catch(err) {
-      console.log(`Failed to seed clients ${err}`);
+clients.forEach(async (client, index) => {
+  try {
+    const result = await client.save();
+    if (index === clientsLength - 1) {
+      console.log("Clients seeds done!");
       db.close();
-      process.exit(0);
     }
-  });
+  } catch (error) {
+    const err = new Error(`${error?.message}`);
+    console.log(`Client seed failed - ${err}`);
+    db.close();
+    process.exit(0);
+  }
 });
-

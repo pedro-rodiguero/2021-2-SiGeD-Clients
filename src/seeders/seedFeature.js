@@ -21,19 +21,17 @@ db.once("open", () => {
 
 const featuresLength = features.length;
 
-features.forEach(async (user, index) => {
-  await user.save((err, result) => {
-    try {
-      if (err) throw new Error(`${err?.message}`);
-      if (index === featuresLength - 1) {
-        console.log("DONE!");
-        db.close();
-      }
-    } catch(err) {
-      console.log(`Failed to seed features ${err}`);
+features.forEach(async (feature, index) => {
+  try {
+    const result = await feature.save();
+    if (index === featuresLength - 1) {
+      console.log("Features seeds done!");
       db.close();
-      process.exit(0);
     }
-  });
+  } catch (error) {
+    const err = new Error(`${error?.message}`);
+    console.log(`Feature seed failed - ${err}`);
+    db.close();
+    process.exit(0);
+  }
 });
-

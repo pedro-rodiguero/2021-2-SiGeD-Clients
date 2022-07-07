@@ -19,21 +19,19 @@ db.once("open", () => {
   console.log('MongoDB is connected');
 })
 
-const lotacoesLength = lotacoes.length;
+const clientsLength = lotacoes.length;
 
-lotacoes.forEach(async (user, index) => {
-  await user.save((err, result) => {
-    try {
-      if (err) throw new Error(`${err?.message}`);
-      if (index === lotacoesLength - 1) {
-        console.log("DONE!");
-        db.close();
-      }
-    } catch(err) {
-      console.log(`Failed to seed lotacoes ${err}`);
+lotacoes.forEach(async (lotacao, index) => {
+  try {
+    const result = await lotacao.save();
+    if (index === clientsLength - 1) {
+      console.log("Lotacoes seeds done!");
       db.close();
-      process.exit(0);
     }
-  });
+  } catch (error) {
+    const err = new Error(`${error?.message}`);
+    console.log(`Lotacao seed failed - ${err}`);
+    db.close();
+    process.exit(0);
+  }
 });
-
