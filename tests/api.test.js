@@ -285,6 +285,28 @@ describe('Sample Test', () => {
     done();  
   }); 
 
+  it('Get clients filtered', async (done) => {  
+    const filterName = {  
+      filters:   {  
+        name : 'Cliente Um',  
+      },  
+    };  
+    const res = await request(app).get(`/clients`).set('x-access-token', token).query(filterName);  
+    expect(res.statusCode).toBe(200);  
+    expect(res.body[0].name).toBe(client1.name);  
+  
+    const filterEmail = {  
+      filters:   {  
+        email : 'um@gmail.com',  
+      },  
+    };  
+    const nextRes = await request(app).get(`/clients`).set('x-access-token', token).query(filterEmail);  
+    expect(nextRes.statusCode).toBe(200);  
+    expect(nextRes.body[0].email).toBe(client1.email);  
+
+    done();  
+  });
+
   it('Get client by id', async (done) => {
     const res = await request(app).get(`/clients/${activeID}`).set('x-access-token', token);
     expect(res.statusCode).toBe(200);
