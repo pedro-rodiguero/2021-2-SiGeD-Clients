@@ -230,6 +230,61 @@ describe('Sample Test', () => {
     done();
   });
 
+  it('Get clients paginate', async (done) => {  
+    const pagination = {  
+      page:   0,   
+      limit:  3,  
+    };  
+    const res = await request(app).get(`/clients`).set('x-access-token', token).query(pagination);  
+    expect(res.statusCode).toBe(200);
+    expect(res.body.length).toBe(pagination.limit);
+    expect(res.body[0].cpf).toBe(client1.cpf);
+    expect(res.body[0].name).toBe(client1.name);
+    expect(res.body[0].email).toBe(client1.email);
+    expect(res.body[0].location).toBe(client1.location);
+    expect(res.body[0].features).toEqual(client1.features);
+    expect(res.body[0].image).toEqual(client1.image);
+    expect(res.body[0].address).toBe(client1.address);
+    expect(res.body[0].office).toBe(client1.office);
+
+    expect(res.body[res.body.length - 1].cpf).toBe(client4.cpf);
+    expect(res.body[res.body.length - 1].name).toBe(client4.name);
+    expect(res.body[res.body.length - 1].email).toBe(client4.email);
+    expect(res.body[res.body.length - 1].location).toBe(client4.location);
+    expect(res.body[res.body.length - 1].features).toEqual(client4.features);
+    expect(res.body[res.body.length - 1].image).toEqual(client4.image);
+    expect(res.body[res.body.length - 1].address).toBe(client4.address);
+    expect(res.body[res.body.length - 1].office).toBe(client4.office);
+
+    const nextPagination = {  
+      page:   1,   
+      limit:  3,  
+    };  
+    const nextRes = await request(app).get(`/clients`).set('x-access-token', token).query(nextPagination);  
+    expect(nextRes.statusCode).toBe(200);
+    expect(nextRes.body.length).toBe(nextPagination.limit-1);  
+
+    expect(res.body[0].cpf).toBe(client5.cpf);
+    expect(res.body[0].name).toBe(client5.name);
+    expect(res.body[0].email).toBe(client5.email);
+    expect(res.body[0].location).toBe(client5.location);
+    expect(res.body[0].features).toEqual(client5.features);
+    expect(res.body[0].image).toEqual(client5.image);
+    expect(res.body[0].address).toBe(client5.address);
+    expect(res.body[0].office).toBe(client5.office);
+
+    expect(res.body[res.body.length - 1].cpf).toBe(client.cpf);
+    expect(res.body[res.body.length - 1].name).toBe(client.name);
+    expect(res.body[res.body.length - 1].email).toBe(client.email);
+    expect(res.body[res.body.length - 1].location).toBe(client.location);
+    expect(res.body[res.body.length - 1].features).toEqual(client.features);
+    expect(res.body[res.body.length - 1].image).toEqual(client.image);
+    expect(res.body[res.body.length - 1].address).toBe(client.address);
+    expect(res.body[res.body.length - 1].office).toBe(client.office);
+
+    done();  
+  }); 
+
   it('Get client by id', async (done) => {
     const res = await request(app).get(`/clients/${activeID}`).set('x-access-token', token);
     expect(res.statusCode).toBe(200);
