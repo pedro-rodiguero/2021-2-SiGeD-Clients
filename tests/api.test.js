@@ -241,20 +241,16 @@ describe('Sample Test', () => {
     expect(res.body[0].cpf).toBe(client1.cpf);
     expect(res.body[0].name).toBe(client1.name);
     expect(res.body[0].email).toBe(client1.email);
-    expect(res.body[0].location).toBe(client1.location);
-    expect(res.body[0].features).toEqual(client1.features);
     expect(res.body[0].image).toEqual(client1.image);
     expect(res.body[0].address).toBe(client1.address);
     expect(res.body[0].office).toBe(client1.office);
 
-    expect(res.body[res.body.length - 1].cpf).toBe(client4.cpf);
-    expect(res.body[res.body.length - 1].name).toBe(client4.name);
-    expect(res.body[res.body.length - 1].email).toBe(client4.email);
-    expect(res.body[res.body.length - 1].location).toBe(client4.location);
-    expect(res.body[res.body.length - 1].features).toEqual(client4.features);
-    expect(res.body[res.body.length - 1].image).toEqual(client4.image);
-    expect(res.body[res.body.length - 1].address).toBe(client4.address);
-    expect(res.body[res.body.length - 1].office).toBe(client4.office);
+    expect(res.body[res.body.length - 1].cpf).toBe(client3.cpf);
+    expect(res.body[res.body.length - 1].name).toBe(client3.name);
+    expect(res.body[res.body.length - 1].email).toBe(client3.email);
+    expect(res.body[res.body.length - 1].image).toEqual(client3.image);
+    expect(res.body[res.body.length - 1].address).toBe(client3.address);
+    expect(res.body[res.body.length - 1].office).toBe(client3.office);
 
     const nextPagination = {  
       page:   1,   
@@ -262,25 +258,21 @@ describe('Sample Test', () => {
     };  
     const nextRes = await request(app).get(`/clients`).set('x-access-token', token).query(nextPagination);  
     expect(nextRes.statusCode).toBe(200);
-    expect(nextRes.body.length).toBe(nextPagination.limit-1);  
+    expect(nextRes.body.length).toBe(nextPagination.limit);  
 
-    expect(res.body[0].cpf).toBe(client5.cpf);
-    expect(res.body[0].name).toBe(client5.name);
-    expect(res.body[0].email).toBe(client5.email);
-    expect(res.body[0].location).toBe(client5.location);
-    expect(res.body[0].features).toEqual(client5.features);
-    expect(res.body[0].image).toEqual(client5.image);
-    expect(res.body[0].address).toBe(client5.address);
-    expect(res.body[0].office).toBe(client5.office);
+    expect(nextRes.body[0].cpf).toBe(client4.cpf);
+    expect(nextRes.body[0].name).toBe(client4.name);
+    expect(nextRes.body[0].email).toBe(client4.email);
+    expect(nextRes.body[0].image).toEqual(client4.image);
+    expect(nextRes.body[0].address).toBe(client4.address);
+    expect(nextRes.body[0].office).toBe(client4.office);
 
-    expect(res.body[res.body.length - 1].cpf).toBe(client.cpf);
-    expect(res.body[res.body.length - 1].name).toBe(client.name);
-    expect(res.body[res.body.length - 1].email).toBe(client.email);
-    expect(res.body[res.body.length - 1].location).toBe(client.location);
-    expect(res.body[res.body.length - 1].features).toEqual(client.features);
-    expect(res.body[res.body.length - 1].image).toEqual(client.image);
-    expect(res.body[res.body.length - 1].address).toBe(client.address);
-    expect(res.body[res.body.length - 1].office).toBe(client.office);
+    expect(nextRes.body[nextRes.body.length - 1].cpf).toBe(client.cpf);
+    expect(nextRes.body[nextRes.body.length - 1].name).toBe(client.name);
+    expect(nextRes.body[nextRes.body.length - 1].email).toBe(client.email);
+    expect(nextRes.body[nextRes.body.length - 1].image).toEqual(client.image);
+    expect(nextRes.body[nextRes.body.length - 1].address).toBe(client.address);
+    expect(nextRes.body[nextRes.body.length - 1].office).toBe(client.office);
 
     done();  
   }); 
@@ -316,7 +308,7 @@ describe('Sample Test', () => {
 
     const res = await request(app).get(`/clients`).set('x-access-token', token).query(sortDesc);  
     expect(res.statusCode).toBe(200);  
-    expect(res.body[0].email).toBe(client1.email);
+    expect(res.body[0].email).toBe(client.email);
 
     const sortAsc = {
       sort: {
@@ -326,7 +318,7 @@ describe('Sample Test', () => {
 
     const newRes = await request(app).get(`/clients`).set('x-access-token', token).query(sortAsc);  
     expect(newRes.statusCode).toBe(200);  
-    expect(newRes.body[0].email).toBe(client.email);  
+    expect(newRes.body[0].email).toBe(client5.email);  
 
     done();
   });
