@@ -230,6 +230,99 @@ describe('Sample Test', () => {
     done();
   });
 
+  it('Get clients paginate', async (done) => {  
+    const pagination = {  
+      page:   0,   
+      limit:  3,  
+    };  
+    const res = await request(app).get(`/clients`).set('x-access-token', token).query(pagination);  
+    expect(res.statusCode).toBe(200);
+    expect(res.body.length).toBe(pagination.limit);
+    expect(res.body[0].cpf).toBe(client1.cpf);
+    expect(res.body[0].name).toBe(client1.name);
+    expect(res.body[0].email).toBe(client1.email);
+    expect(res.body[0].image).toEqual(client1.image);
+    expect(res.body[0].address).toBe(client1.address);
+    expect(res.body[0].office).toBe(client1.office);
+
+    expect(res.body[res.body.length - 1].cpf).toBe(client3.cpf);
+    expect(res.body[res.body.length - 1].name).toBe(client3.name);
+    expect(res.body[res.body.length - 1].email).toBe(client3.email);
+    expect(res.body[res.body.length - 1].image).toEqual(client3.image);
+    expect(res.body[res.body.length - 1].address).toBe(client3.address);
+    expect(res.body[res.body.length - 1].office).toBe(client3.office);
+
+    const nextPagination = {  
+      page:   1,   
+      limit:  3,  
+    };  
+    const nextRes = await request(app).get(`/clients`).set('x-access-token', token).query(nextPagination);  
+    expect(nextRes.statusCode).toBe(200);
+    expect(nextRes.body.length).toBe(nextPagination.limit);  
+
+    expect(nextRes.body[0].cpf).toBe(client4.cpf);
+    expect(nextRes.body[0].name).toBe(client4.name);
+    expect(nextRes.body[0].email).toBe(client4.email);
+    expect(nextRes.body[0].image).toEqual(client4.image);
+    expect(nextRes.body[0].address).toBe(client4.address);
+    expect(nextRes.body[0].office).toBe(client4.office);
+
+    expect(nextRes.body[nextRes.body.length - 1].cpf).toBe(client.cpf);
+    expect(nextRes.body[nextRes.body.length - 1].name).toBe(client.name);
+    expect(nextRes.body[nextRes.body.length - 1].email).toBe(client.email);
+    expect(nextRes.body[nextRes.body.length - 1].image).toEqual(client.image);
+    expect(nextRes.body[nextRes.body.length - 1].address).toBe(client.address);
+    expect(nextRes.body[nextRes.body.length - 1].office).toBe(client.office);
+
+    done();  
+  }); 
+
+  it('Get clients filtered', async (done) => {  
+    const filterName = {  
+      filters:   {  
+        name : 'Cliente Um',  
+      },  
+    };  
+    const res = await request(app).get(`/clients`).set('x-access-token', token).query(filterName);  
+    expect(res.statusCode).toBe(200);  
+    expect(res.body[0].name).toBe(client1.name);  
+  
+    const filterEmail = {  
+      filters:   {  
+        email : 'um@gmail.com',  
+      },  
+    };  
+    const nextRes = await request(app).get(`/clients`).set('x-access-token', token).query(filterEmail);  
+    expect(nextRes.statusCode).toBe(200);  
+    expect(nextRes.body[0].email).toBe(client1.email);  
+
+    done();  
+  });
+
+  it('Get clients sorted', async (done) => {
+    const sortDesc = {
+      sort: {
+        name: -1,
+      },
+    }
+
+    const res = await request(app).get(`/clients`).set('x-access-token', token).query(sortDesc);  
+    expect(res.statusCode).toBe(200);  
+    expect(res.body[0].email).toBe(client.email);
+
+    const sortAsc = {
+      sort: {
+        name: 1,
+      },
+    }
+
+    const newRes = await request(app).get(`/clients`).set('x-access-token', token).query(sortAsc);  
+    expect(newRes.statusCode).toBe(200);  
+    expect(newRes.body[0].email).toBe(client5.email);  
+
+    done();
+  });
+
   it('Get client by id', async (done) => {
     const res = await request(app).get(`/clients/${activeID}`).set('x-access-token', token);
     expect(res.statusCode).toBe(200);
