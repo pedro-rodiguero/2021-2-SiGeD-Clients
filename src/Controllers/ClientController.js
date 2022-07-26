@@ -38,7 +38,7 @@ const accessList = async (req, res) => {
   .skip(pageNumber * limitNumber)
   .limit(limitNumber)
   .sort(orderBy)
-  .exec();;
+  .exec();
 
   return res.json(clients);
 };
