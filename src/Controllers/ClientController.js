@@ -7,17 +7,38 @@ const { getUser } = require('../Services/Axios/userService');
 const { getDemands } = require('../Services/Axios/demandService');
 
 const accessList = async (req, res) => {
-  const { active } = req.query;
+  const { active, page, limit, filters, sort, } = req.query;
+  let mongoQuery = { active: true };
   if (active === 'false') {
-    const clients = await Client.find({ active }).populate('location');
-    return res.json(clients);
+    mongoQuery = { active };
   }
   if (active === 'null') {
-    const clients = await Client.find().populate('location');
-    return res.json(clients);
+    mongoQuery = {};
   }
 
-  const clients = await Client.find({ active: true }).populate('location');
+  const orderBy = {};
+
+  const pageNumber = parseInt(page, 10) || 0;
+  const limitNumber = parseInt(limit, 10) || 10;
+
+  if (sort) {
+    let sortObj = typeof sort === 'string' ? JSON.parse(sort) : sort || {};
+    Object.keys(sortObj).forEach(key => orderBy[key] = parseInt(sortObj[key]))
+  }
+
+  if (filters) {
+    mongoQuery = typeof filters === 'string' ? JSON.parse(filters) : filters || {};
+    mongoQuery.name = { $regex: mongoQuery.name || '', $options: 'i' };
+    mongoQuery.cpf = { $regex: mongoQuery.cpf || '', $options: 'i' };
+    mongoQuery.email = { $regex: mongoQuery.email || '', $options: 'i' };
+  }
+
+  const clients = await Client.find(mongoQuery)
+  .populate('location')
+  .skip(pageNumber * limitNumber)
+  .limit(limitNumber)
+  .sort(orderBy)
+  .exec();
 
   return res.json(clients);
 };
