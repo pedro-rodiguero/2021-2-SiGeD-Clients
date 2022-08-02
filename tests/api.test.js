@@ -675,6 +675,20 @@ describe('Sample Test', () => {
     done();
   });
 
+  it('desactive feature', async (done) => {
+    const res = await request(app).patch(`/feature/desactive/${featureID}`).set('x-access-token', token);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.active).toBe(false);
+    done();
+  });
+
+  it('desactive feature with invalid id', async (done) => {
+    const res = await request(app).patch(`/feature/desactive/invalidId`).set('x-access-token', token);
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({ "message": "Invalid ID" });
+    done();
+  });
+
   it('delete feature', async (done) => {
     const res = await request(app).delete(`/feature/delete/${featureID}`).set('x-access-token', token);
     expect(res.statusCode).toBe(200);
