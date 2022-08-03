@@ -53,7 +53,20 @@ const deleteLotacao = async (req, res) => {
     return res.status(400).json({ message: 'Invalid ID' });
   }
 };
+const lotacaoDeactivate = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updateStatus = await Lotacao.findOneAndUpdate({ _id: id }, {
+      status: 'desativado',
+      updatedAt: moment.utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss')).toDate(),
+    }, { new: true }, (lotacao) => lotacao);
+    return res.json(updateStatus);
+  } catch {
+    return res.status(400).json({ err: 'invalid id' });
+  }
+};
 
 module.exports = {
-  create, allLotacao, update, deleteLotacao,
+  create, allLotacao, update, deleteLotacao,lotacaoDeactivate
 };
