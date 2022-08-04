@@ -19,7 +19,7 @@ const accessList = async (req, res) => {
   const orderBy = {};
 
   const pageNumber = parseInt(page, 10) || 0;
-  const limitNumber = parseInt(limit, 10) || 10;
+  const limitNumber = parseInt(limit, 10) || null;
 
   if (sort) {
     let sortObj = typeof sort === 'string' ? JSON.parse(sort) : sort || {};
@@ -33,12 +33,16 @@ const accessList = async (req, res) => {
     mongoQuery.email = { $regex: mongoQuery.email || '', $options: 'i' };
   }
 
-  const clients = await Client.find(mongoQuery)
-  .populate('location')
-  .skip(pageNumber * limitNumber)
-  .limit(limitNumber)
-  .sort(orderBy)
-  .exec();
+  const query = Client.find(mongoQuery)
+    .populate('location')
+    .skip(pageNumber * limitNumber)
+    .sort(orderBy);
+
+  if (limitNumber) {
+    query.limit(limitNumber);
+  }
+
+  const clients = await query.exec();
 
   return res.json(clients);
 };
