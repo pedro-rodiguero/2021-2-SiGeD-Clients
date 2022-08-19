@@ -3,7 +3,9 @@ const Feature = require('../Models/FeatureSchema');
 const { validateFeatures } = require('../Utils/validate');
 
 const getFeaturesList = async (req, res) => {
-  const features = await Feature.find();
+  const features = await Feature.find({
+    active: true
+  });
 
   return res.json(features);
 };
@@ -11,7 +13,7 @@ const getFeaturesList = async (req, res) => {
 const getFeaturesByID = async (req, res) => {
   const { featuresList } = req.body;
   try {
-    const features = await Feature.find({ _id: { $in: featuresList } });
+    const features = await Feature.find({ _id: { $in: featuresList }, active: true });
     return res.status(200).json(features);
   } catch (err) {
     return res.status(400).json({ message: 'Invalid ID' });
@@ -76,6 +78,20 @@ const deleteFeature = async (req, res) => {
   }
 };
 
+const desactiveFeature = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updateResponse = await Feature.findOneAndUpdate({ _id: id }, {
+      active: false,
+      updatedAt: moment.utc(moment.tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ss')).toDate(),
+    }, { new: true }, (feature) => feature);
+    return res.status(200).json(updateResponse);
+  } catch (error) {
+    return res.status(400).json({ message: 'Invalid ID' });
+  }
+}
+
 module.exports = {
-  getFeaturesList, getFeaturesByID, createFeature, updateFeature, deleteFeature,
+  getFeaturesList, getFeaturesByID, createFeature, updateFeature, deleteFeature, desactiveFeature
 };
