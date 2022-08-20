@@ -10,6 +10,12 @@ const lotacaoSchema = new mongoose.Schema({
     require: true,
 
   },
+  status: {
+    type: String,
+    enum: ['ativado','desativado'],
+    require: [true],
+    default: 'ativado',
+  },
   createdAt: {
     type: Date,
     require: true,

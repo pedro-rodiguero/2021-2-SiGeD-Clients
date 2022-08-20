@@ -44,4 +44,5 @@ routes.delete(
   verifyJWT,
   LotacaoController.deleteLotacao,
 );
+routes.put('lotacao/deactivate/:id', verifyJWT, LotacaoController.lotacaoDeactivate);
 module.exports = routes;
