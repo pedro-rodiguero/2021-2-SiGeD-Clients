@@ -25,6 +25,11 @@ const allLotacao = async (req, res) => {
   return res.json(allLotacaoreq);
 };
 
+const getLotacaoByActivate = async (req, res) => {
+  const allLotacaoreq = await Lotacao.find({ status: "ativado" });
+  return res.json(allLotacaoreq);
+};
+
 const update = async (req, res) => {
   const { id } = req.params;
   const {
@@ -68,5 +73,5 @@ const lotacaoDeactivate = async (req, res) => {
 };
 
 module.exports = {
-  create, allLotacao, update, deleteLotacao,lotacaoDeactivate
+  create, allLotacao, update, deleteLotacao, lotacaoDeactivate, getLotacaoByActivate
 };
