@@ -13,7 +13,7 @@ const getFeaturesList = async (req, res) => {
 const getFeaturesByID = async (req, res) => {
   const { featuresList } = req.body;
   try {
-    const features = await Feature.find({ _id: { $in: featuresList }, active: true });
+    const features = await Feature.find({ _id: { $in: featuresList } });
     return res.status(200).json(features);
   } catch (err) {
     return res.status(400).json({ message: 'Invalid ID' });
