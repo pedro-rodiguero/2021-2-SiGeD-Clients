@@ -282,7 +282,8 @@ const getFeaturesByClient = async (req, res) => {
     },
     {
       $group: {
-        _id: '$features', count: {$sum: 1}
+        _id: '$features',
+        clients_quantity: {$sum: 1}
       }
     }
   ];
@@ -303,8 +304,11 @@ const getFeaturesByClient = async (req, res) => {
           }
         ]).exec();
 
+        console.log(featureData[0])
+
         feature['name'] = featureData[0].name
         feature['color'] = featureData[0].color
+        feature['description'] = featureData[0].description
 
       } catch (e){
         console.log({ "error": e})
