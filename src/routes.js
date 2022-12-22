@@ -26,6 +26,7 @@ routes.post(
   verifyJWT,
   ClientController.sendEmailToClient,
 );
+routes.get('/statistic/feature', verifyJWT, ClientController.getFeaturesByClient);
 routes.get('/features/', verifyJWT, FeatureController.getFeaturesList);
 routes.post('/featuresbyid/', verifyJWT, FeatureController.getFeaturesByID);
 routes.post('/feature/create', verifyJWT, FeatureController.createFeature);

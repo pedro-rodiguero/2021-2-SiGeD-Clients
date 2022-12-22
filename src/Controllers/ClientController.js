@@ -1,10 +1,13 @@
 const moment = require('moment-timezone');
 const Client = require('../Models/ClientSchema');
+const Feature = require('../Models/FeatureSchema');
 const validation = require('../Utils/validate');
 const { scheduleEmail } = require('../Utils/mailer');
 const verifyChanges = require('../Utils/verifyChanges');
 const { getUser } = require('../Services/Axios/userService');
 const { getDemands } = require('../Services/Axios/demandService');
+
+const mongoose = require("mongoose")
 
 const accessList = async (req, res) => {
   const { active, page, limit, filters, sort, } = req.query;
@@ -272,6 +275,53 @@ const sendEmailToClient = async (req, res) => {
   }
 };
 
+const getFeaturesByClient = async (req, res) => {
+  const aggregatorOpts = [
+    {
+      $unwind: '$features'
+    },
+    {
+      $group: {
+        _id: '$features',
+        clients_quantity: {$sum: 1}
+      }
+    }
+  ];
+
+  try {
+    const features = await Client.aggregate(aggregatorOpts).exec();
+
+    for (const feature of features) {
+
+      let id = new mongoose.Types.ObjectId(feature._id);
+
+      try {
+        const featureData = await Feature.aggregate([
+          {
+            $match: {
+              _id: id
+            }
+          }
+        ]).exec();
+
+        console.log(featureData[0])
+
+        feature['name'] = featureData[0].name
+        feature['color'] = featureData[0].color
+        feature['description'] = featureData[0].description
+
+      } catch (e){
+        console.log({ "error": e})
+      }
+    }
+
+    return res.json(features);
+  } catch (e){
+    return res.status(400).json({ err: e });
+  }
+
+};
+
 module.exports = {
   accessList,
   access,
@@ -281,4 +331,7 @@ module.exports = {
   history,
   newestFourClientsGet,
   sendEmailToClient,
+  getFeaturesByClient
 };
+
+
