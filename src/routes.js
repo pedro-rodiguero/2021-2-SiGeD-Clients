@@ -37,14 +37,14 @@ routes.delete(
   FeatureController.deleteFeature,
 );
 routes.put('/feature/update/:id', verifyJWT, FeatureController.updateFeature);
-routes.post('/lotacao/create', verifyJWT, LotacaoController.create);
-routes.get('/lotacao', verifyJWT, LotacaoController.allLotacao);
-routes.put('/lotacao/update/:id', verifyJWT, LotacaoController.update);
+routes.post('/lotacao/create', verifyJWT, LotacaoController.createLotacao);
+routes.get('/lotacao', verifyJWT, LotacaoController.getAllLotacoes);
+routes.put('/lotacao/update/:id', verifyJWT, LotacaoController.updateLotacao);
 routes.delete(
   '/lotacao/delete/:id',
   verifyJWT,
   LotacaoController.deleteLotacao,
 );
 routes.get('/lotacao/actives', verifyJWT, LotacaoController.getLotacaoByActivate);
-routes.put('/lotacao/deactivate/:id', verifyJWT, LotacaoController.lotacaoDeactivate);
+routes.put('/lotacao/deactivate/:id', verifyJWT, LotacaoController.deactivateLotacao);
 module.exports = routes;
