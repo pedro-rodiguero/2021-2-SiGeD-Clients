@@ -3,7 +3,6 @@ const { verifyJWT } = require('./Utils/functionsJWS');
 const ClientController = require('./Controllers/ClientController');
 const FeatureController = require('./Controllers/FeatureController');
 const LotacaoController = require('./Controllers/LotacaoController');
-
 const routes = express.Router();
 
 routes.post('/clients/create', verifyJWT, ClientController.create);
@@ -37,14 +36,14 @@ routes.delete(
   FeatureController.deleteFeature,
 );
 routes.put('/feature/update/:id', verifyJWT, FeatureController.updateFeature);
-routes.post('/lotacao/create', verifyJWT, LotacaoController.createLotacao);
-routes.get('/lotacao', verifyJWT, LotacaoController.getAllLotacoes);
-routes.put('/lotacao/update/:id', verifyJWT, LotacaoController.updateLotacao);
+routes.post('/lotacao/create', verifyJWT, LotacaoController.create);
+routes.get('/lotacao', verifyJWT, LotacaoController.allLotacao);
+routes.put('/lotacao/update/:id', verifyJWT, LotacaoController.update);
 routes.delete(
   '/lotacao/delete/:id',
   verifyJWT,
-  LotacaoController.deleteLotacao,
+    LotacaoController.deleteLotacao,
 );
 routes.get('/lotacao/actives', verifyJWT, LotacaoController.getLotacaoByActivate);
-routes.put('/lotacao/deactivate/:id', verifyJWT, LotacaoController.deactivateLotacao);
+routes.put('/lotacao/deactivate/:id', verifyJWT, LotacaoController.lotacaoDeactivate);
 module.exports = routes;
