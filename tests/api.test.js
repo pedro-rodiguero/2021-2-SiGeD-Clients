@@ -744,4 +744,10 @@ describe('Sample Test', () => {
 
 afterAll(async (done) => {
   done();
+  await request(app).delete('/lotacao/create/').set('x-access-token', token).send(lotacao);
+  await request(app).delete('/clients/create/').set('x-access-token', token).send(client1);
+  await request(app).delete('/clients/create/').set('x-access-token', token).send(client2);
+  await request(app).delete('/clients/create/').set('x-access-token', token).send(client3);
+  await request(app).delete('/clients/create/').set('x-access-token', token).send(client4);
+  await request(app).delete('/clients/create/').set('x-access-token', token).send(client5);
 });
